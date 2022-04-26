@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Common text sizes-->
+    <dimen name="title_h1">34sp</dimen>
+
+
+    <dimen name="null_dimen">0dp</dimen>
+    <dimen name="bg_views_radius">20dp</dimen>
+</resources>

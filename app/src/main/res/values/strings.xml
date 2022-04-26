@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Proyecto</string>
+    <string name="welcome_title">Bienvenido</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mail_input">Introduce tu correo*</string>
+    <string name="input_your_password">Introduce tu contraseña*</string>
+    <string name="helper_required">Requerido*</string>
+    <string name="login_action">INCIAR SESIÓN</string>
+    <string name="action_signup">REGISTRARSE</string>
+    <string name="input_confirm_password">Confirma tu contraseña*</string>
+    <string name="input_business_name">Introduce el nombre de tu tienda*</string>
+    <string name="remember_me">Recuérdame</string>
+</resources>
