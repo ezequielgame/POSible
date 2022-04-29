@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/dialog_bg.xml" value="0.156" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_outline_store_24.xml" value="0.148" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_account.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_employee_account.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_home.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_login.xml" value="0.203125" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_sign_up.xml" value="0.203125" />
       </map>

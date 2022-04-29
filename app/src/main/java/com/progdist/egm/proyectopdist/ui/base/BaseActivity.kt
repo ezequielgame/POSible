@@ -1,44 +1,40 @@
 package com.progdist.egm.proyectopdist.ui.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.progdist.egm.proyectopdist.data.UserPreferences
 import com.progdist.egm.proyectopdist.core.RemoteDataSource
 import com.progdist.egm.proyectopdist.data.repository.BaseRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-abstract class BaseFragment<VM: ViewModel, B: ViewBinding, R: BaseRepository> : Fragment(), LifecycleObserver {
-
-
+abstract class BaseActivity<VM: ViewModel, B: ViewBinding, R: BaseRepository> : AppCompatActivity(), LifecycleObserver {
 
     protected lateinit var userPreferences: UserPreferences
-
     private var _binding: B? = null
-    protected lateinit var binding: B
+    protected val binding
+        get() = _binding!!
 
     protected lateinit var viewModel: VM
 
     protected val remoteDataSource = RemoteDataSource()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        userPreferences = UserPreferences(this)
+        _binding = getViewBinding()
+        setContentView(binding.root)
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        userPreferences = UserPreferences(requireContext())
-        _binding = getFragmentBinding(inflater, container)
-        binding = _binding!!
-        val factory = ViewModelFactory(getFragmentRepository())
+        val factory = ViewModelFactory(getActivityRepository())
         viewModel = ViewModelProvider(this, factory).get(getViewModel())
-        return binding.root
+
+        lifecycleScope.launch{userPreferences.authToken.first()}
+
     }
 
     override fun onDestroy() {
@@ -48,8 +44,8 @@ abstract class BaseFragment<VM: ViewModel, B: ViewBinding, R: BaseRepository> : 
 
     abstract fun getViewModel(): Class<VM>
 
-    abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): B
+    abstract fun getViewBinding(): B
 
-    abstract fun getFragmentRepository(): R
+    abstract fun getActivityRepository(): R
 
 }

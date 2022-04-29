@@ -1,4 +1,4 @@
-package com.progdist.egm.proyectopdist.data.responses
+package com.progdist.egm.proyectopdist.data.responses.auth
 
 data class User(
     val business_name_user: String,

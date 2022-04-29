@@ -10,4 +10,12 @@
     <string name="input_confirm_password">Confirma tu contraseña*</string>
     <string name="input_business_name">Introduce el nombre de tu tienda*</string>
     <string name="remember_me">Recuérdame</string>
+    <string name="required_field">Este campo es requerido</string>
+    <string name="password_mismatch">Contraseña no coincide</string>
+    <string name="password_mismatch_error">Las contraseñas no coinciden</string>
+    <string name="password_format_error">La contraseña debe tener 8 caracteres, una mayúscula, números y un símbolo</string>
+    <string name="email_format_error">Introduce un correo válido</string>
+    <string name="success">Éxito</string>
+    <string name="successful_register">Se registró exitosamente, inicie sesión para entrar</string>
+    <string name="ok">Entendido</string>
 </resources>

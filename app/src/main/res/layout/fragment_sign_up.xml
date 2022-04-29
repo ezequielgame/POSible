@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.LoginFragment">
+    tools:context=".ui.auth.LoginFragment"
+    android:background="@drawable/dialog_bg">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
@@ -24,6 +25,7 @@
         android:windowSoftInputMode="adjustResize|stateHidden">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tfEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />
@@ -48,6 +50,7 @@
         app:startIconDrawable="@drawable/ic_password">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tfPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
@@ -71,6 +74,7 @@
         app:startIconDrawable="@drawable/ic_password">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tfConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
@@ -94,6 +98,7 @@
         app:startIconDrawable="@drawable/ic_outline_store_24">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tfBusinessName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName" />
