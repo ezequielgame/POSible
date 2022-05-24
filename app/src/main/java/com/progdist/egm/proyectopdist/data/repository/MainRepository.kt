@@ -3,7 +3,7 @@ package com.progdist.egm.proyectopdist.data.repository
 import com.progdist.egm.proyectopdist.data.UserPreferences
 import com.progdist.egm.proyectopdist.data.network.MainApi
 
-class MainRepository (
+class MainRepository(
     private val api: MainApi,
 ): BaseRepository(){
 

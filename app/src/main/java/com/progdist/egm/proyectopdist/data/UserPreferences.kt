@@ -2,6 +2,7 @@ package com.progdist.egm.proyectopdist.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,22 @@ class UserPreferences (
             preferences[KEY_AUTH]
         }
 
+    val idSelectedBranch: Flow<Int?>
+        get() = dataStore.data.map { preferences ->
+            preferences[WORK_BRANCH]
+        }
+
+    suspend fun saveIdWorkingBranch(branchId: Int){
+        dataStore.edit { preferences ->
+            preferences[WORK_BRANCH] = branchId
+        }
+    }
+
+    suspend fun deleteIdWorkingBranch(){
+        dataStore.edit { preferences ->
+            preferences.remove(WORK_BRANCH)
+        }
+    }
 
     suspend fun saveAuthToken(authToken: String){
         dataStore.edit { preferences ->
@@ -28,8 +45,16 @@ class UserPreferences (
         }
     }
 
+    suspend fun deleteAuthToken(){
+        dataStore.edit { preferences ->
+            preferences.remove(WORK_BRANCH)
+            preferences.remove(KEY_AUTH)
+        }
+    }
+
     companion object {
         private val KEY_AUTH = stringPreferencesKey("key_auth")
+        private val WORK_BRANCH = intPreferencesKey("work_branch_id")
     }
 
 }

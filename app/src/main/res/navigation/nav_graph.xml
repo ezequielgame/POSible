@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/branchesFragment">
+
+    <fragment
+        android:id="@+id/branchesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchesFragment"
+        android:label="fragment_branches"
+        tools:layout="@layout/fragment_branches" >
+        <action
+            android:id="@+id/action_branchesFragment_to_addBranchFragment"
+            app:destination="@id/addBranchFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+        <action
+            android:id="@+id/action_branchesFragment_to_branchSummaryFragment"
+            app:destination="@id/branchSummaryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageEmployeesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.employees.ManageEmployeesFragment"
+        android:label="fragment_manage_employees"
+        tools:layout="@layout/fragment_manage_employees" />
+
+    <fragment
+        android:id="@+id/salesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.sales.SalesFragment"
+        android:label="fragment_sales"
+        tools:layout="@layout/fragment_sales" />
+
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.InventoryFragment"
+        android:label="fragment_inventory"
+        tools:layout="@layout/fragment_inventory" >
+        <action
+            android:id="@+id/action_inventoryFragment_to_branchesFragment"
+            app:destination="@id/branchesFragment" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_itemsFragment"
+            app:destination="@id/itemsFragment" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_suppliersFragment"
+            app:destination="@id/suppliersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBranchFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.AddBranchFragment"
+        android:label="fragment_add_branch"
+        tools:layout="@layout/fragment_add_branch" >
+        <action
+            android:id="@+id/action_addBranchFragment_to_branchesFragment"
+            app:destination="@id/branchesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/branchSummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchSummaryFragment"
+        android:label="fragment_branch_summary"
+        tools:layout="@layout/fragment_branch_summary" >
+        <action
+            android:id="@+id/action_branchSummaryFragment_to_branchesFragment"
+            app:destination="@id/branchesFragment" />
+        <argument
+            android:name="branchId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_branchSummaryFragment_self"
+            app:destination="@id/branchSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.CategoriesFragment"
+        android:label="fragment_categories"
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_addCategoryFragment"
+            app:destination="@id/addCategoryFragment" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_categorySummaryFragment"
+            app:destination="@id/categorySummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemsFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.ItemsFragment"
+        android:label="fragment_items"
+        tools:layout="@layout/fragment_items" >
+        <action
+            android:id="@+id/action_itemsFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_itemSummaryFragment"
+            app:destination="@id/itemSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/suppliersFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.SuppliersFragment"
+        android:label="fragment_suppliers"
+        tools:layout="@layout/fragment_suppliers" >
+        <action
+            android:id="@+id/action_suppliersFragment_to_addSupplierFragment"
+            app:destination="@id/addSupplierFragment" />
+        <action
+            android:id="@+id/action_suppliersFragment_to_supplierSummaryFragment"
+            app:destination="@id/supplierSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCategoryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.AddCategoryFragment"
+        android:label="fragment_add_category"
+        tools:layout="@layout/fragment_add_category" >
+        <action
+            android:id="@+id/action_addCategoryFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+        <argument android:name="branchId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/categorySummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.CategorySummaryFragment"
+        android:label="fragment_category_summary"
+        tools:layout="@layout/fragment_category_summary" >
+        <action
+            android:id="@+id/action_categorySummaryFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" >
+        <action
+            android:id="@+id/action_addItemFragment_to_itemsFragment"
+            app:destination="@id/itemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemSummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.ItemSummaryFragment"
+        android:label="fragment_item_summary"
+        tools:layout="@layout/fragment_item_summary" >
+        <action
+            android:id="@+id/action_itemSummaryFragment_to_itemsFragment"
+            app:destination="@id/itemsFragment" />
+        <argument android:name="itemId" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSupplierFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.AddSupplierFragment"
+        android:label="fragment_add_supplier"
+        tools:layout="@layout/fragment_add_supplier" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/supplierSummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.SupplierSummaryFragment"
+        android:label="fragment_supplier_summary"
+        tools:layout="@layout/fragment_supplier_summary" >
+        <action
+            android:id="@+id/action_supplierSummaryFragment_to_suppliersFragment"
+            app:destination="@id/suppliersFragment" />
+        <argument android:name="supplierId"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

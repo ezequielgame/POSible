@@ -4,8 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.LoginFragment"
-    android:background="@drawable/dialog_bg">
+    android:background="@drawable/dialog_bg"
+    tools:context=".ui.auth.LoginFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/null_dimen"
+        android:layout_height="wrap_content"
+        android:hint="Introduce tu nombre"
+        android:windowSoftInputMode="adjustResize|stateHidden"
+        app:endIconMode="clear_text"
+        app:helperText="@string/helper_required"
+        app:layout_constraintBottom_toTopOf="@+id/tilEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:startIconDrawable="@drawable/ic_account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tfName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
@@ -13,16 +38,16 @@
         android:layout_width="@dimen/null_dimen"
         android:layout_height="wrap_content"
         android:hint="@string/mail_input"
+        android:windowSoftInputMode="adjustResize|stateHidden"
         app:endIconMode="clear_text"
         app:helperText="@string/helper_required"
         app:layout_constraintBottom_toTopOf="@+id/tilPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilName"
         app:layout_constraintWidth_percent="0.8"
-        app:startIconDrawable="@drawable/ic_baseline_mail_outline_24"
-        android:windowSoftInputMode="adjustResize|stateHidden">
+        app:startIconDrawable="@drawable/ic_baseline_mail_outline_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tfEmail"
@@ -113,8 +138,9 @@
         android:text="@string/action_signup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilBusinessName"
+        app:layout_constraintTop_toBottomOf="@+id/tilBusinessName"
         app:layout_constraintWidth_percent="0.5" />
 
 

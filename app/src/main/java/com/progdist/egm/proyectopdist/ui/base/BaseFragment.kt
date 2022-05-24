@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.progdist.egm.proyectopdist.data.UserPreferences
 import com.progdist.egm.proyectopdist.core.RemoteDataSource
 import com.progdist.egm.proyectopdist.data.repository.BaseRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<VM: ViewModel, B: ViewBinding, R: BaseRepository> : Fragment(), LifecycleObserver {
 
@@ -38,6 +41,9 @@ abstract class BaseFragment<VM: ViewModel, B: ViewBinding, R: BaseRepository> : 
         binding = _binding!!
         val factory = ViewModelFactory(getFragmentRepository())
         viewModel = ViewModelProvider(this, factory).get(getViewModel())
+
+        lifecycleScope.launch { userPreferences.authToken.first() }
+
         return binding.root
     }
 

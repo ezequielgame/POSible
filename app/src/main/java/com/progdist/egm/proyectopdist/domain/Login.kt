@@ -6,7 +6,7 @@ import com.progdist.egm.proyectopdist.data.responses.auth.LoginResponse
 
 class Login {
 
-    suspend operator fun invoke(repository: AuthRepository,domain:String,email: String, password: String): Resource<Any>? =
+    suspend operator fun invoke(repository: AuthRepository,domain:String,email: String, password: String): Resource<Any> =
         repository.login(domain,"login", email, password)
 
 }

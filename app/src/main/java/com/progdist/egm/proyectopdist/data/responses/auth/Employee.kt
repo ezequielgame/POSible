@@ -11,6 +11,7 @@ data class Employee(
     val last_name_employee: String,
     val middle_name_employee: String,
     val phone_number_employee: String,
+    val img_path_employee: String,
     val token_employee: String,
     val token_exp_employee: Int
 )

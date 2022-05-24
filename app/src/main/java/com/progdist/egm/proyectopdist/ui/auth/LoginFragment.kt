@@ -1,6 +1,6 @@
 package com.progdist.egm.proyectopdist.ui.auth
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,19 +16,31 @@ import com.progdist.egm.proyectopdist.data.network.AuthApi
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.AuthRepository
 import com.progdist.egm.proyectopdist.databinding.FragmentLoginBinding
+import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 
 class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepository>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var domain: String = ""
+        when(activity){
+            is EmployeeAccountActivity->{
+                domain = "employees"
+            }
+            is AccountActivity -> {
+                domain = "users"
+            }
+        }
+
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.success -> {
-                    if(binding.cbRememberMe.isChecked) {
-                        viewModel.saveAuthToken(it.value.user.token_user)
-                    }
-                    Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_LONG).show()
+                    val intent:Intent = Intent(requireContext(), HomeActivity::class.java)
+                    intent.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("user",  it.value.user.id_user)
+                    viewModel.saveAuthToken(it.value.user.token_user)
+                    startActivity(intent)
                 }
                 is Resource.failure -> {
                     Toast.makeText(requireContext(), "Login failure", Toast.LENGTH_LONG).show()
@@ -40,9 +52,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
             when (it) {
                 is Resource.success -> {
                     Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_LONG).show()
-                    if(binding.cbRememberMe.isChecked) {
-                        viewModel.saveAuthToken(it.value.employee.token_employee)
-                    }
+                    viewModel.saveAuthToken(it.value.employee.token_employee)
                 }
                 is Resource.failure -> {
                     Toast.makeText(requireContext(), "Login failure", Toast.LENGTH_LONG).show()
@@ -59,16 +69,6 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
         binding.tfPassword.addTextChangedListener {
             if(!binding.tfPassword.text.toString().trim().isEmpty()){
                 binding.tilPassword.error = null
-            }
-        }
-
-        var domain: String = ""
-        when(activity){
-            is EmployeeAccountActivity->{
-                domain = "employees"
-            }
-            is AccountActivity -> {
-                domain = "users"
             }
         }
 

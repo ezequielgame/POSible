@@ -3,14 +3,67 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/account_view_bg.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/bottom_nav_shape.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/bottom_shape.xml" value="0.133" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/dialog_bg.xml" value="0.156" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/hero_shape.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_admin.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_baseline_insert_chart_outlined_24.xml" value="0.1505" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_baseline_local_grocery_store_24.xml" value="0.1505" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_baseline_local_phone_24.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_baseline_mail_outline_24.xml" value="0.1505" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_baseline_short_text_24.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_categories.xml" value="0.1" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_category.xml" value="0.1" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_hero_add_branch.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_hero_employees.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_hero_inventory.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_hero_sales.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_items.xml" value="0.1" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1505" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_outline_store_24.xml" value="0.148" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_password.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_round_add_business_24.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_round_manage_accounts_24.xml" value="0.1505" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_round_storage_24.xml" value="0.1505" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_round_store_24.xml" value="0.1505" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_shop.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_undraw_world_re_768g.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_user.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/ic_wave_sections.xml" value="0.133" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/nav_drawer_header_bg.xml" value="0.1235" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/drawable/splash_background.xml" value="0.1505" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_account.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_branches_view_model.xml" value="0.203125" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_employee_account.xml" value="0.203125" />
-        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_home.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_employee_home.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_home.xml" value="0.18" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/branch_item.xml" value="0.22" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/card_layout.xml" value="0.1547008547008547" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/category_item.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_add_branch.xml" value="0.2" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_add_category.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_add_supplier.xml" value="0.1547008547008547" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_branch_summary.xml" value="0.16" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_branches.xml" value="0.16" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_categories.xml" value="0.1547008547008547" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_category_summary.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_inventory.xml" value="0.16" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_items.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_login.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_manage_employees.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_sales.xml" value="0.16" />
         <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_sign_up.xml" value="0.203125" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_supplier_summary.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/fragment_suppliers.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/nav_draer_header.xml" value="0.75" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/nav_drawer_header.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/layout/supplier_item.xml" value="0.22" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/menu/navigation_drawer_item.xml" value="0.2" />
+        <entry key="..\:/Users/ezequ/AndroidStudioProjects/ProyectoPDist/app/src/main/res/menu/owner_nav_menu.xml" value="0.203125" />
       </map>
     </option>
   </component>

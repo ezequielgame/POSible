@@ -18,4 +18,33 @@
     <string name="success">Éxito</string>
     <string name="successful_register">Se registró exitosamente, inicie sesión para entrar</string>
     <string name="ok">Entendido</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+
+
+    <string name="title_choose_image_provider">Elegir</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="title_gallery">Galería</string>
+    <string name="title_camera">Cámara</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[Camera permission is needed to take a picture. Please allow permission from Settings > Permissions.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Fallo al crear archivo de foto de la cámara</string>
+    <string name="error_failed_pick_gallery_image">Fallo al elegir una foto de la galería</string>
+    <string name="error_failed_to_crop_image">Fallo al recortar la imagen</string>
+    <string name="error_failed_to_compress_image">Fallo al comprimir la imagen</string>
+    <string name="error_task_cancelled">Tarea cancelada</string>
+    <string name="error_camera_app_not_found">Aplicación de cámara no encontrada</string>
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Original</string>
+    <string name="ucrop_label_edit_photo">Editar Foto</string>
+    <string name="ucrop_menu_crop">Recortar</string>
+    <string name="ucrop_rotate">Rotar</string>
+    <string name="ucrop_scale">Escalar</string>
+    <string name="ucrop_crop">Recortar</string>
+    <!-- uCrop string resource end -->
+
+
 </resources>

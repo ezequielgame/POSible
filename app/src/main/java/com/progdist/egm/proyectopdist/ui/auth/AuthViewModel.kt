@@ -44,12 +44,13 @@ class AuthViewModel(
     }
 
     fun register(
+        name: String,
         email: String,
         password: String,
         business_name: String
     ) = viewModelScope.launch {
         val signUpUseCase = SignUp()
-        _registerResponse.value = signUpUseCase(repository,email,password,business_name)!!
+        _registerResponse.value = signUpUseCase(repository,name,email,password,business_name)!!
     }
 
     fun saveAuthToken(token:String) = viewModelScope.launch {

@@ -22,6 +22,7 @@ interface AuthApi {
     @POST("users")
     suspend fun register(
         @Query("action") action: String,
+        @Field("name_user") name: String,
         @Field("email_user") email: String,
         @Field("password_user") password: String,
         @Field("business_name_user") business: String

@@ -26,7 +26,7 @@ class EmployeeAccountActivity : AppCompatActivity() {
         tabLayout = binding.tabLayout
         viewPager = binding.viewPager
 
-        viewPager.adapter = EmployeeAccountPagerAdapter(this)
+        viewPager.adapter = EmployeeAccountPagerAdapter(supportFragmentManager, lifecycle)
         TabLayoutMediator(tabLayout, viewPager){ tab, index ->
             tab.text = when(index){
                 0 -> {

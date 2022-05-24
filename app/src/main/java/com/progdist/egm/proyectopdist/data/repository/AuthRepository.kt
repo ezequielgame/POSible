@@ -26,11 +26,12 @@ class AuthRepository(
 
     suspend fun register(
         action: String,
+        name: String,
         email: String,
         password: String,
         business_name: String
     ) = safeApiCall {
-        api.register(action,email,password,business_name)
+        api.register(action,name,email,password,business_name)
     }
 
 

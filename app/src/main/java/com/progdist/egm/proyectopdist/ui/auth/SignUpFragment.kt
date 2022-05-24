@@ -30,11 +30,12 @@ class SignUpFragment : BaseFragment<AuthViewModel, FragmentSignUpBinding, AuthRe
 
         // Do the register when click button
         binding.btnSignup.setOnClickListener{
+            val name = binding.tfName.text.toString().trim()
             val email = binding.tfEmail.text.toString().trim()
             val password = binding.tfPassword.text.toString().trim()
             val businessName = binding.tfBusinessName.text.toString().trim()
             if(validForm()){
-                viewModel.register(email,password,businessName) // Call the viewModel
+                viewModel.register(name,email,password,businessName) // Call the viewModel
             }
         }
 
@@ -60,6 +61,14 @@ class SignUpFragment : BaseFragment<AuthViewModel, FragmentSignUpBinding, AuthRe
 
         // Correcting inputs
 
+        binding.tfName.addTextChangedListener{
+
+            if(!binding.tfName.text.toString().trim().isEmpty()){
+                binding.tilEmail.error = null
+            }
+
+        }
+
         binding.tfEmail.addTextChangedListener {
             if(!binding.tfEmail.text.toString().trim().isEmpty()){
                 binding.tilEmail.error = null
@@ -84,21 +93,21 @@ class SignUpFragment : BaseFragment<AuthViewModel, FragmentSignUpBinding, AuthRe
             }
         }
 
-
-
     }
 
     private fun validForm(): Boolean {
         var valid: Boolean = true
+        val name = binding.tfName.text.toString().trim()
         val email = binding.tfEmail.text.toString().trim()
         val password = binding.tfPassword.text.toString().trim()
         val confirm = binding.tfConfirmPassword.text.toString().trim()
         val businessName = binding.tfBusinessName.text.toString().trim()
 
-        valid = validField(binding.tfEmail, binding.tilEmail, listOf()) and
-        validField(binding.tfPassword, binding.tilPassword, listOf(email)) and
-        validField(binding.tfConfirmPassword, binding.tilConfirmPassword, listOf(email, password)) and
-        validField(binding.tfBusinessName, binding.tilBusinessName, listOf(email,password, confirm))
+        valid = validField(binding.tfName, binding.tilName, listOf())
+            validField(binding.tfEmail, binding.tilEmail, listOf(name)) and
+            validField(binding.tfPassword, binding.tilPassword, listOf(name,email)) and
+            validField(binding.tfConfirmPassword, binding.tilConfirmPassword, listOf(name,email, password)) and
+            validField(binding.tfBusinessName, binding.tilBusinessName, listOf(name,email,password, confirm))
 
         if(valid){
             if(!email.isValidEmail()){

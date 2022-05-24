@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/null_dimen"
-        android:src="@drawable/account_bg"
+        android:src="@drawable/hero_shape"
         app:layout_constraintHeight_percent=".27"
         android:scaleType="centerCrop"
         app:layout_constraintVertical_bias="0"
