@@ -1,11 +1,9 @@
 package com.progdist.egm.proyectopdist.data.network
 
 import com.progdist.egm.proyectopdist.data.responses.branches.*
-import com.progdist.egm.proyectopdist.data.responses.home.GetUserResponse
-import com.progdist.egm.proyectopdist.data.responses.locations.AddLocationResponse
-import com.progdist.egm.proyectopdist.data.responses.locations.EditLocationResponse
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import com.progdist.egm.proyectopdist.data.responses.generic.AddResponse
+import com.progdist.egm.proyectopdist.data.responses.generic.DeleteResponse
+import com.progdist.egm.proyectopdist.data.responses.generic.EditResponse
 import retrofit2.http.*
 
 interface BranchesApi {
@@ -17,7 +15,7 @@ interface BranchesApi {
         @Field("city_location") city: String,
         @Field("estate_location") estate: String,
         @Field("country_location") country: String
-    ) : AddLocationResponse
+    ) : AddResponse
 
     @FormUrlEncoded
     @POST("branches")
@@ -27,7 +25,7 @@ interface BranchesApi {
         @Field("id_location_branch") id_location: String,
         @Field("phone_number_branch") phone: String,
         @Field("description_branch") description: String,
-    ) : AddBranchResponse
+    ) : AddResponse
 
     @GET("branches")
     suspend fun getBranchesList(
@@ -52,7 +50,7 @@ interface BranchesApi {
         @Field("city_location") city: String,
         @Field("estate_location") estate: String,
         @Field("country_location") country: String
-    ) : EditLocationResponse
+    ) : EditResponse
 
     @FormUrlEncoded
     @PUT("branches")
@@ -62,18 +60,18 @@ interface BranchesApi {
         @Field("name_branch") name: String,
         @Field("phone_number_branch") phone: String,
         @Field("description_branch") description: String
-    ) : EditBranchResponse
+    ) : EditResponse
 
     @DELETE("branches")
     suspend fun deleteBranch(
         @Query("id") id: Int,
         @Query("nameId") nameId: String
-    ) : DeleteBranchResponse
+    ) : DeleteResponse
 
     @DELETE("locations")
     suspend fun deleteBranchLocation(
         @Query("id") id: Int,
         @Query("nameId") nameId: String
-    ) : DeleteBranchLocationResponse
+    ) : DeleteResponse
 
 }

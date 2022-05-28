@@ -1,10 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.owner.sales.SalesFragment">
+    tools:context=".ui.home.owner.inventory.views.InventoryFragment">
+
+    <TextView
+        android:id="@+id/tvWorkBranch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="Sucursal"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btnNewPurchase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNewPurchase"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Nueva Compra"
+        app:icon="@drawable/ic_new_purchase"
+        app:iconGravity="top"
+        app:iconSize="80dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewSale"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4"
+        android:backgroundTint="@drawable/color_state_button"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNewSale"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Nueva Venta"
+        app:icon="@drawable/ic_new_sale"
+        app:iconGravity="top"
+        app:iconSize="80dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="add"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewPurchase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnNewPurchase"
+        app:layout_constraintTop_toTopOf="@+id/btnNewPurchase"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.4"
+        android:backgroundTint="@drawable/color_state_button"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnListPurchases"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Historial Compras"
+        app:icon="@drawable/ic_list_purchases"
+        app:iconGravity="top"
+        app:iconSize="80dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnListSales"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnNewPurchase"
+        app:layout_constraintWidth_percent="0.4"
+        android:backgroundTint="@drawable/color_state_button"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnListSales"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Historial Ventas"
+        app:icon="@drawable/ic_list_sales"
+        app:iconGravity="top"
+        app:iconSize="80dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="add"
+        app:layout_constraintBottom_toBottomOf="@+id/btnListPurchases"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnListPurchases"
+        app:layout_constraintTop_toTopOf="@id/btnListPurchases"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.4"
+        android:backgroundTint="@drawable/color_state_button"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

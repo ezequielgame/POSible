@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
-import com.progdist.egm.proyectopdist.data.responses.inventory.EditCategoryResponse
+import com.progdist.egm.proyectopdist.data.responses.generic.EditResponse
 import com.progdist.egm.proyectopdist.data.responses.inventory.GetCategoriesResponse
 import com.progdist.egm.proyectopdist.domain.EditCategory
 import com.progdist.egm.proyectopdist.domain.GetCategories
@@ -19,8 +19,8 @@ class CategorySummaryViewModel(
     private val _getCategoriesResponse: MutableLiveData<Resource<GetCategoriesResponse>> = MutableLiveData()
     val getCategoriesResponse: LiveData<Resource<GetCategoriesResponse>> get() = _getCategoriesResponse
 
-    private val _editCategoryResponse: MutableLiveData<Resource<EditCategoryResponse>> = MutableLiveData()
-    val editCategoryResponse: LiveData<Resource<EditCategoryResponse>> get() = _editCategoryResponse
+    private val _editCategoryResponse: MutableLiveData<Resource<EditResponse>> = MutableLiveData()
+    val editCategoryResponse: LiveData<Resource<EditResponse>> get() = _editCategoryResponse
 
     fun getCategories(
         where: String,
@@ -37,7 +37,7 @@ class CategorySummaryViewModel(
         description: String
     ) = viewModelScope.launch {
         val editCategoryUseCase = EditCategory()
-       _editCategoryResponse.value = (editCategoryUseCase(repository,id,nameId, name, description) as Resource<EditCategoryResponse>)
+       _editCategoryResponse.value = (editCategoryUseCase(repository,id,nameId, name, description) as Resource<EditResponse>)
     }
 
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
-import com.progdist.egm.proyectopdist.data.responses.inventory.EditSupplierResponse
+import com.progdist.egm.proyectopdist.data.responses.generic.EditResponse
 import com.progdist.egm.proyectopdist.data.responses.inventory.GetSuppliersResponse
 import com.progdist.egm.proyectopdist.domain.EditSupplier
 import com.progdist.egm.proyectopdist.domain.GetSuppliers
@@ -19,8 +19,8 @@ class SupplierSummaryViewModel(
     private val _getSuppliersResponse: MutableLiveData<Resource<GetSuppliersResponse>> = MutableLiveData()
     val getSuppliersResponse: LiveData<Resource<GetSuppliersResponse>> get() = _getSuppliersResponse
 
-    private val _editSupplierResponse: MutableLiveData<Resource<EditSupplierResponse>> = MutableLiveData()
-    val editSupplierResponse: LiveData<Resource<EditSupplierResponse>> get() = _editSupplierResponse
+    private val _editSupplierResponse: MutableLiveData<Resource<EditResponse>> = MutableLiveData()
+    val editSupplierResponse: LiveData<Resource<EditResponse>> get() = _editSupplierResponse
 
     fun getSuppliers(
         where: String,
@@ -39,7 +39,7 @@ class SupplierSummaryViewModel(
     ) = viewModelScope.launch {
 
         val editSupplierUseCase = EditSupplier()
-        _editSupplierResponse.value = (editSupplierUseCase(repository,id, nameId, name, phone, mail) as Resource<EditSupplierResponse>)
+        _editSupplierResponse.value = (editSupplierUseCase(repository,id, nameId, name, phone, mail) as Resource<EditResponse>)
 
     }
 

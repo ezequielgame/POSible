@@ -10,11 +10,11 @@ class InventoryRepository(
     private val preferences: UserPreferences
 ) : BaseRepository() {
 
-    suspend fun getBranchInInventory(
+    suspend fun getBranch(
         where: String,
         id_branch: Int
     ) = safeApiCall {
-        api.getBranchInInventory(where,id_branch)
+        api.getBranch(where,id_branch)
     }
 
     suspend fun getCategories(
@@ -79,6 +79,40 @@ class InventoryRepository(
         mail: String
     ) = safeApiCall {
         api.addSupplier(idUserSupplier, name, phone, mail)
+    }
+
+    suspend fun getItems(
+        where: String,
+        idWhere: Int
+    ) = safeApiCall {
+        api.getItems(where, idWhere)
+    }
+
+    suspend fun addItem(
+        idBranchItem: Int,
+        code: String,
+        name: String,
+        sale: Float,
+        purchase: Float,
+        stock: Int,
+        idCategory: Int,
+        idSupplier: Int
+    ) = safeApiCall {
+        api.addItem(idBranchItem, code, name, sale, purchase,stock, idCategory, idSupplier)
+    }
+
+    suspend fun editItem(
+        id: Int,
+        nameId: String,
+        code: String,
+        name: String,
+        sale: Int,
+        purchase: Int,
+        stock: Int,
+        idCategory: Int,
+        idSupplier: Int
+    ) = safeApiCall {
+        api.editItem(id,nameId, code, name, sale, purchase, stock, idCategory, idSupplier)
     }
 
 

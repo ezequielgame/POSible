@@ -95,5 +95,8 @@ dependencies {
     //Image picker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
+    //Code scanner
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.1'
+
 
 }

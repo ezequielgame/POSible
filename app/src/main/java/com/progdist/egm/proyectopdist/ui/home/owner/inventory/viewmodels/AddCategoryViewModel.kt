@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
-import com.progdist.egm.proyectopdist.data.responses.locations.AddLocationResponse
+import com.progdist.egm.proyectopdist.data.responses.generic.AddResponse
 import com.progdist.egm.proyectopdist.domain.AddCategory
 import kotlinx.coroutines.launch
 
@@ -16,8 +16,8 @@ class AddCategoryViewModel(
 
 
 
-    private val _addCategoryResponse : MutableLiveData<Resource<AddLocationResponse>> = MutableLiveData() //Put the value
-    val addCategoryResponse: LiveData<Resource<AddLocationResponse>> get() = _addCategoryResponse
+    private val _addCategoryResponse : MutableLiveData<Resource<AddResponse>> = MutableLiveData() //Put the value
+    val addCategoryResponse: LiveData<Resource<AddResponse>> get() = _addCategoryResponse
 
 
     fun addCategory(
@@ -26,7 +26,7 @@ class AddCategoryViewModel(
         description: String
     ) = viewModelScope.launch {
         val addCategoryUseCase = AddCategory()
-        _addCategoryResponse.value = (addCategoryUseCase(repository,idUser,name, description) as Resource<AddLocationResponse>)
+        _addCategoryResponse.value = (addCategoryUseCase(repository,idUser,name, description) as Resource<AddResponse>)
     }
 
 

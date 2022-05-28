@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.owner.branches.BranchesFragment">
+    tools:context=".ui.home.owner.branches.views.BranchesFragment">
 
     <TextView
         android:id="@+id/tvNoItems"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/branchesRecycler"
+            android:id="@+id/itemsRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

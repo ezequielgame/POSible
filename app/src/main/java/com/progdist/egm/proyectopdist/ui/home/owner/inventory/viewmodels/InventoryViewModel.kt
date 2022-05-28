@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
 import com.progdist.egm.proyectopdist.data.responses.branches.GetBranchesListResponse
-import com.progdist.egm.proyectopdist.domain.GetBranchInInventory
+import com.progdist.egm.proyectopdist.domain.GetBranch
 import kotlinx.coroutines.launch
 
 class InventoryViewModel(
@@ -21,7 +21,7 @@ class InventoryViewModel(
         where:String,
         id_branch: Int
     ) = viewModelScope.launch {
-        val getBranchInInventoryUseCase = GetBranchInInventory()
+        val getBranchInInventoryUseCase = GetBranch()
         _getBranchesListResponse.value = (getBranchInInventoryUseCase(repository,where,id_branch) as Resource<GetBranchesListResponse>)
 
     }

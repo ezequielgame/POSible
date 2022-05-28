@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.progdist.egm.proyectopdist.data.repository.*
 import com.progdist.egm.proyectopdist.ui.auth.AuthViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeViewModel
-import com.progdist.egm.proyectopdist.ui.home.owner.branches.AddBranchViewModel
-import com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchesSummaryViewModel
-import com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchesViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.AddBranchViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.BranchesSummaryViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.BranchesViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.employees.ManageEmployeesViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.*
-import com.progdist.egm.proyectopdist.ui.home.owner.sales.SalesViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.sales.viewmodel.*
 import com.progdist.egm.proyectopdist.ui.main.MainViewModel
 
 class ViewModelFactory(
@@ -48,6 +48,20 @@ class ViewModelFactory(
                 repository as InventoryRepository) as T
             modelClass.isAssignableFrom(SupplierSummaryViewModel::class.java) -> SupplierSummaryViewModel(
                 repository as InventoryRepository) as T
+            modelClass.isAssignableFrom(AddItemViewModel::class.java) -> AddItemViewModel(
+                repository as InventoryRepository) as T
+            modelClass.isAssignableFrom(ItemSummaryViewModel::class.java) -> ItemSummaryViewModel(
+                repository as InventoryRepository) as T
+            modelClass.isAssignableFrom(NewSaleViewModel::class.java) -> NewSaleViewModel(
+                repository as SalesRepository) as T
+            modelClass.isAssignableFrom(CheckoutViewModel::class.java) -> CheckoutViewModel(
+                repository as SalesRepository) as T
+            modelClass.isAssignableFrom(SalesViewModel::class.java) -> SalesViewModel(
+                repository as SalesRepository) as T
+            modelClass.isAssignableFrom(SalesListViewModel::class.java) -> SalesListViewModel(
+                repository as SalesRepository) as T
+            modelClass.isAssignableFrom(SaleSummaryViewModel::class.java) -> SaleSummaryViewModel(
+                repository as SalesRepository) as T
             else -> throw IllegalArgumentException("View Model Class Not Found")
         }
     }

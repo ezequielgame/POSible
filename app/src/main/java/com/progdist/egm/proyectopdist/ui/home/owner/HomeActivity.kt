@@ -25,8 +25,10 @@ import com.progdist.egm.proyectopdist.data.responses.branches.Branch
 import com.progdist.egm.proyectopdist.data.responses.branches.ExtendedBranch
 import com.progdist.egm.proyectopdist.databinding.ActivityHomeBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseActivity
+import com.progdist.egm.proyectopdist.ui.showToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import java.lang.Exception
 
 class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeRepository>() {
 
@@ -155,9 +157,14 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
         // always show selected Bottom Navigation item as selected (return true)
         bottomNav.setOnItemSelectedListener { item ->
             // In order to get the expected behavior, you have to call default Navigation method manually
+            if(item.itemId != R.id.branchesFragment){
+                navController.clearBackStack(item.itemId)
+            }
             NavigationUI.onNavDestinationSelected(item, navController)
             return@setOnItemSelectedListener true
         }
+
+
 
     }
 

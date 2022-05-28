@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
-import com.progdist.egm.proyectopdist.data.responses.inventory.DeleteCategoryResponse
-import com.progdist.egm.proyectopdist.data.responses.inventory.DeleteSupplierResponse
+import com.progdist.egm.proyectopdist.data.responses.generic.DeleteResponse
 import com.progdist.egm.proyectopdist.data.responses.inventory.GetSuppliersResponse
-import com.progdist.egm.proyectopdist.domain.DeleteCategory
 import com.progdist.egm.proyectopdist.domain.DeleteSupplier
 import com.progdist.egm.proyectopdist.domain.GetSuppliers
 import kotlinx.coroutines.launch
@@ -21,8 +19,8 @@ class SuppliersViewModel(
     private val _getSuppliersResponse: MutableLiveData<Resource<GetSuppliersResponse>> = MutableLiveData()
     val getSuppliersResponse: LiveData<Resource<GetSuppliersResponse>> get() = _getSuppliersResponse
 
-    private val _deleteSupplierResponse: MutableLiveData<Resource<DeleteSupplierResponse>> = MutableLiveData()
-    val deleteSupplierResponse: LiveData<Resource<DeleteSupplierResponse>> get() = _deleteSupplierResponse
+    private val _deleteSupplierResponse: MutableLiveData<Resource<DeleteResponse>> = MutableLiveData()
+    val deleteSupplierResponse: LiveData<Resource<DeleteResponse>> get() = _deleteSupplierResponse
 
     fun getSuppliers(
         where: String,
@@ -37,7 +35,7 @@ class SuppliersViewModel(
         nameId: String
     ) = viewModelScope.launch {
         val deleteSupplierUseCase = DeleteSupplier()
-        _deleteSupplierResponse.value = (deleteSupplierUseCase(repository,id, nameId) as Resource<DeleteSupplierResponse>)
+        _deleteSupplierResponse.value = (deleteSupplierUseCase(repository,id, nameId) as Resource<DeleteResponse>)
     }
 
 }

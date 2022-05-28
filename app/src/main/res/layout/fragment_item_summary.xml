@@ -1,14 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.owner.inventory.views.ItemSummaryFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".ui.home.owner.branches.views.AddBranchFragment">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del producto"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilItemCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            app:startIconDrawable="@drawable/ic_baseline_short_text_24"
+            android:layout_margin="5dp"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfItemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemCode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Código"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilItemSalePrice"
+            app:layout_constraintEnd_toStartOf="@id/btnCodeScanner"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemName"
+            app:layout_constraintWidth_percent="0.6"
+            app:startIconDrawable="@drawable/ic_barcode"
+            android:layout_margin="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfItemCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCodeScanner"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:icon="@drawable/ic_barcode_scanner"
+            app:iconSize="30dp"
+            app:iconGravity="top"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="add"
+            app:layout_constraintStart_toEndOf="@id/tilItemCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tilItemCode"
+            app:layout_constraintBottom_toBottomOf="@id/tilItemCode"
+            app:layout_constraintVertical_bias="0.3"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemSalePrice"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Precio de venta"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilItemPurchasePrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemCode"
+            app:layout_constraintWidth_percent="0.8"
+            app:startIconDrawable="@drawable/ic_pricing"
+            android:layout_margin="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfItemSalePrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemPurchasePrice"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Precio de compra"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilItemStock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemSalePrice"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_price"
+            android:textColor="@drawable/color_state_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfItemPurchasePrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemStock"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Existencias"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilItemCategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemPurchasePrice"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_stock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfItemStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemCategory"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Categoría"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilItemSupplier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemStock"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_category_material">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvItemCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilItemSupplier"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Proveedor"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/btnSave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemCategory"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_supplier_material">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvItemSupplier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@drawable/color_state_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilItemSupplier"
+            app:layout_constraintWidth_percent="0.5"
+            android:layout_margin="5dp"
+            android:visibility="gone"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
+

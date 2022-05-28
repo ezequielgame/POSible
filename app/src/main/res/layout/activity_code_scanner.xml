@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.budiyev.android.codescanner.CodeScannerView
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/scanner_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.8"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
+        app:flashButtonVisible="true"
+        app:frameColor="@android:color/white"
+        app:frameCornersSize="50dp"
+        app:frameCornersRadius="10dp"
+        app:frameAspectRatioWidth="1"
+        app:frameAspectRatioHeight="0.5"
+        app:frameSize="0.7"
+        app:frameThickness="2dp"
+        app:frameVerticalBias="0.5"
+        app:maskColor="#77000000"
+        />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchAutomatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvAutomaticScan"
+        app:layout_constraintBottom_toBottomOf="@id/tvAutomaticScan"
+        app:layout_constraintStart_toEndOf="@id/tvAutomaticScan"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:checked="false"/>
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/tvAutomaticScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvScanStatus"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/scanner_view"
+        android:text="Continuo"/>
+
+    <TextView
+        android:id="@+id/tvScanStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnSaveCode"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/scanner_view"
+        android:text="Escaneando..."/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSaveCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvScanStatus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Guardar"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

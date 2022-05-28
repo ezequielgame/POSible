@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/branchesFragment"
-        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.views.BranchesFragment"
         android:label="fragment_branches"
         tools:layout="@layout/fragment_branches" >
         <action
@@ -29,9 +29,16 @@
 
     <fragment
         android:id="@+id/salesFragment"
-        android:name="com.progdist.egm.proyectopdist.ui.home.owner.sales.SalesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.sales.views.SalesFragment"
         android:label="fragment_sales"
-        tools:layout="@layout/fragment_sales" />
+        tools:layout="@layout/fragment_sales" >
+        <action
+            android:id="@+id/action_salesFragment_to_branchesFragment"
+            app:destination="@id/branchesFragment" />
+        <action
+            android:id="@+id/action_salesFragment_to_salesListFragment"
+            app:destination="@id/salesListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/inventoryFragment"
@@ -53,16 +60,17 @@
     </fragment>
     <fragment
         android:id="@+id/addBranchFragment"
-        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.AddBranchFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.views.AddBranchFragment"
         android:label="fragment_add_branch"
         tools:layout="@layout/fragment_add_branch" >
         <action
             android:id="@+id/action_addBranchFragment_to_branchesFragment"
-            app:destination="@id/branchesFragment" />
+            app:destination="@id/branchesFragment"
+            app:popUpTo="@id/branchesFragment" />
     </fragment>
     <fragment
         android:id="@+id/branchSummaryFragment"
-        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchSummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.branches.views.BranchSummaryFragment"
         android:label="fragment_branch_summary"
         tools:layout="@layout/fragment_branch_summary" >
         <action
@@ -85,7 +93,8 @@
             app:destination="@id/addCategoryFragment" />
         <action
             android:id="@+id/action_categoriesFragment_to_categorySummaryFragment"
-            app:destination="@id/categorySummaryFragment" />
+            app:destination="@id/categorySummaryFragment"
+            app:launchSingleTop="false" />
     </fragment>
     <fragment
         android:id="@+id/itemsFragment"
@@ -121,7 +130,8 @@
         tools:layout="@layout/fragment_add_category" >
         <action
             android:id="@+id/action_addCategoryFragment_to_categoriesFragment"
-            app:destination="@id/categoriesFragment" />
+            app:destination="@id/categoriesFragment"
+            app:popUpTo="@id/categoriesFragment" />
         <argument android:name="branchId"
             app:argType="integer" />
     </fragment>
@@ -144,7 +154,15 @@
         tools:layout="@layout/fragment_add_item" >
         <action
             android:id="@+id/action_addItemFragment_to_itemsFragment"
-            app:destination="@id/itemsFragment" />
+            app:destination="@id/itemsFragment"
+            app:popUpTo="@id/itemsFragment" />
+        <argument
+            android:name="branchId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_addItemFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment"
+            app:popUpTo="@id/inventoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemSummaryFragment"
@@ -154,7 +172,8 @@
         <action
             android:id="@+id/action_itemSummaryFragment_to_itemsFragment"
             app:destination="@id/itemsFragment" />
-        <argument android:name="itemId" />
+        <argument android:name="itemId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addSupplierFragment"
@@ -164,6 +183,10 @@
         <argument
             android:name="userId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_addSupplierFragment_to_suppliersFragment"
+            app:destination="@id/suppliersFragment"
+            app:popUpTo="@id/suppliersFragment" />
     </fragment>
     <fragment
         android:id="@+id/supplierSummaryFragment"
@@ -174,6 +197,30 @@
             android:id="@+id/action_supplierSummaryFragment_to_suppliersFragment"
             app:destination="@id/suppliersFragment" />
         <argument android:name="supplierId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/salesListFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.sales.views.SalesListFragment"
+        android:label="SalesListFragment" >
+        <action
+            android:id="@+id/action_salesListFragment_to_salesFragment"
+            app:destination="@id/salesFragment"
+            app:popUpTo="@id/salesFragment" />
+        <action
+            android:id="@+id/action_salesListFragment_to_saleSummaryFragment"
+            app:destination="@id/saleSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/saleSummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.sales.views.SaleSummaryFragment"
+        android:label="fragment_sale_summary"
+        tools:layout="@layout/fragment_sale_summary" >
+        <action
+            android:id="@+id/action_saleSummaryFragment_to_salesListFragment"
+            app:destination="@id/salesListFragment" />
+        <argument
+            android:name="saleId"
             app:argType="integer" />
     </fragment>
 

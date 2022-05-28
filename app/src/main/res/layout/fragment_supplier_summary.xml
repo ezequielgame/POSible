@@ -44,7 +44,8 @@
                 android:id="@+id/tfSupplierName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +72,8 @@
                 android:id="@+id/tfSupplierMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +99,8 @@
                 android:id="@+id/tfSupplierPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

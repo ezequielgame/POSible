@@ -17,7 +17,6 @@ import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
 import com.progdist.egm.proyectopdist.databinding.FragmentCategoriesBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
-import com.progdist.egm.proyectopdist.ui.home.owner.branches.BranchesFragmentDirections
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.CategoriesViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

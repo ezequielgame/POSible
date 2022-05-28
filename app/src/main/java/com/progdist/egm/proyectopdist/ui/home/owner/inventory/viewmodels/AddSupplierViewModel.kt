@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
-import com.progdist.egm.proyectopdist.data.responses.inventory.AddSupplierResponse
-import com.progdist.egm.proyectopdist.data.responses.locations.AddLocationResponse
-import com.progdist.egm.proyectopdist.domain.AddCategory
+import com.progdist.egm.proyectopdist.data.responses.generic.AddResponse
 import com.progdist.egm.proyectopdist.domain.AddSupplier
 import kotlinx.coroutines.launch
 
@@ -17,8 +15,8 @@ class AddSupplierViewModel(
 ): ViewModel() {
 
 
-    private val _addSupplierResponse : MutableLiveData<Resource<AddSupplierResponse>> = MutableLiveData() //Put the value
-    val addSupplierResponse: LiveData<Resource<AddSupplierResponse>> get() = _addSupplierResponse
+    private val _addSupplierResponse : MutableLiveData<Resource<AddResponse>> = MutableLiveData() //Put the value
+    val addSupplierResponse: LiveData<Resource<AddResponse>> get() = _addSupplierResponse
 
 
     fun addSupplier(
@@ -28,7 +26,7 @@ class AddSupplierViewModel(
         mail: String
     ) = viewModelScope.launch {
         val addSupplierUseCase = AddSupplier()
-        _addSupplierResponse.value = (addSupplierUseCase(repository,idUserSupplier,name,phone,mail) as Resource<AddSupplierResponse>)
+        _addSupplierResponse.value = (addSupplierUseCase(repository,idUserSupplier,name,phone,mail) as Resource<AddResponse>)
     }
 
 }

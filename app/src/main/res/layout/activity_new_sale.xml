@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.AccountActivity">
+
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/constraintLayoutInside"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
+        app:flashButtonVisible="true"
+        app:frameColor="@android:color/white"
+        app:frameCornersSize="50dp"
+        app:frameCornersRadius="10dp"
+        app:frameAspectRatioWidth="1"
+        app:frameAspectRatioHeight="0.5"
+        app:frameSize="0.7"
+        app:frameThickness="2dp"
+        app:frameVerticalBias="0.5"
+        app:maskColor="#77000000"
+        android:background="@drawable/hero_shape"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutInside"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/null_dimen"
+        app:layout_constraintHeight_percent=".70"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintBottom_toTopOf="@id/btnNewSale"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/account_view_bg"
+        android:windowSoftInputMode="adjustResize|stateHidden">
+
+
+
+        <LinearLayout
+            android:id="@+id/llScanInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvAutomaticScan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Continuo"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintTop_toTopOf="@id/switchAutomatic"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchAutomatic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvAutomaticScan"
+                app:layout_constraintBottom_toBottomOf="@id/tvAutomaticScan"
+                app:layout_constraintStart_toEndOf="@id/tvAutomaticScan"
+                app:layout_constraintHorizontal_bias="0.1"
+                android:checked="true" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"/>
+
+            <TextView
+                android:id="@+id/tvScanStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/switchAutomatic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/switchAutomatic"
+                app:layout_constraintTop_toTopOf="@id/switchAutomatic"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:text="Escaneando..." />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llScanInfo">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newSaleItemsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNewSale"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Proceder al pago"
+        app:icon="@drawable/ic_checkout"
+        android:backgroundTint="@color/color_primary_light"
+        app:iconGravity="end"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.7"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

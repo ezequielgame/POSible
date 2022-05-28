@@ -18,7 +18,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.home.owner.branches.AddBranchFragment">
+        tools:context=".ui.home.owner.branches.views.AddBranchFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilBusinessName"
@@ -43,7 +43,8 @@
                 android:id="@+id/tfBusinessName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +71,8 @@
                 android:id="@+id/tfCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +97,8 @@
                 android:id="@+id/tfEstate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,7 +123,8 @@
                 android:id="@+id/tfCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,7 +150,8 @@
                 android:id="@+id/tfAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,7 +177,8 @@
                 android:id="@+id/tfPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,7 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:maxLines="3" />
+                android:maxLines="3"
+                android:textColor="@drawable/color_state_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
