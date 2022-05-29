@@ -18,6 +18,8 @@ import com.progdist.egm.proyectopdist.adapter.SalesListItemsListAdapter
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.network.SalesApi
 import com.progdist.egm.proyectopdist.data.repository.SalesRepository
+import com.progdist.egm.proyectopdist.data.responses.sales.Purchase
+import com.progdist.egm.proyectopdist.data.responses.sales.Sale
 import com.progdist.egm.proyectopdist.databinding.FragmentSalesListBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
@@ -37,9 +39,14 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
     lateinit var homeActivity: HomeActivity
     lateinit var recyclerAdapter: SalesListItemsListAdapter
     private var selectedBranchId: Int = -1
+    lateinit var context: String
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context = requireArguments().getString("context",null)
+
+
         binding.tvNoSales.visibility = View.GONE
 
         val collapsingToolbarLayout = requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
@@ -48,10 +55,18 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
         if (this.topDate == "" || this.lowDate == "") {
             binding.btnPickDateRange.isEnabled = false
             showDateRangePicker()
-            collapsingToolbarLayout.title = "Ventas"
+            if(context == "sale"){
+                collapsingToolbarLayout.title = "Ventas"
+            }else{
+                collapsingToolbarLayout.title = "Compras"
+            }
         }else{
             binding.btnPickDateRange.isEnabled = true
-            collapsingToolbarLayout.title = "Ventas del $lowDate al $topDate"
+            if(context == "sale"){
+                binding.btnPickDateRange.text = "Seleccionar periodo\nVentas del $lowDate al $topDate"
+            }else{
+                binding.btnPickDateRange.text = "Seleccionar periodo\nCompras del $lowDate al $topDate"
+            }
         }
         initRecyclerView()
 
@@ -73,8 +88,16 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
 
         recyclerAdapter.setOnItemClickListener(object : SalesListItemsListAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(recyclerAdapter.getItem(position).id_sale)
-                findNavController().navigate(action)
+                val item: Any
+                if(context == "sale"){
+                    item = recyclerAdapter.getItem(position) as Sale
+                    val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(item.id_sale,context)
+                    findNavController().navigate(action)
+                }else{
+                    item = recyclerAdapter.getItem(position) as Purchase
+                    val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(item.id_purchase,context)
+                    findNavController().navigate(action)
+                }
             }
         })
 
@@ -86,30 +109,49 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
             }
         })
 
-
-
-        viewModel.getSalesResponse.observe(viewLifecycleOwner){
-            when(it){
-                is Resource.success->{
-                    binding.tvNoSales.visibility = View.GONE
-                    recyclerAdapter.setItemsList(it.value.result)
-                    recyclerAdapter.notifyDataSetChanged()
+        if(context == "sale"){
+            viewModel.getSalesResponse.observe(viewLifecycleOwner){
+                when(it){
+                    is Resource.success->{
+                        binding.tvNoSales.visibility = View.GONE
+                        recyclerAdapter.setItemsList(it.value.result)
+                        recyclerAdapter.notifyDataSetChanged()
+                    }
+                    is Resource.failure->{
+                        recyclerAdapter.setItemsList(listOf())
+                        binding.tvNoSales.visibility = View.VISIBLE
+                        binding.root.showToast("No hay ventas durante el periodo seleccionado")
+                        binding.tvNoSales.text = "No hay ventas del $lowDate al $topDate"
+                        recyclerAdapter.notifyDataSetChanged()
+                    }
                 }
-                is Resource.failure->{
-                    recyclerAdapter.setItemsList(listOf())
-                    binding.tvNoSales.visibility = View.VISIBLE
-                    binding.root.showToast("No hay ventas durante el periodo seleccionado")
-                    binding.tvNoSales.text = "No hay ventas del $lowDate al $topDate"
-                    recyclerAdapter.notifyDataSetChanged()
+            }
+        }else{
+            viewModel.getPurchasesResponse.observe(viewLifecycleOwner){
+                when(it){
+                    is Resource.success->{
+                        binding.tvNoSales.visibility = View.GONE
+                        recyclerAdapter.setItemsList(it.value.result)
+                        recyclerAdapter.notifyDataSetChanged()
+                    }
+                    is Resource.failure->{
+                        recyclerAdapter.setItemsList(listOf())
+                        binding.tvNoSales.visibility = View.VISIBLE
+                        binding.root.showToast("No hay compras durante el periodo seleccionado")
+                        binding.tvNoSales.text = "No hay compras del $lowDate al $topDate"
+                        recyclerAdapter.notifyDataSetChanged()
+                    }
                 }
             }
         }
+
+
     }
 
     private fun initRecyclerView() {
 
         binding.salesRecycler.layoutManager = LinearLayoutManager(requireContext())
-        recyclerAdapter = SalesListItemsListAdapter()
+        recyclerAdapter = SalesListItemsListAdapter(context)
         binding.salesRecycler.adapter = recyclerAdapter
 
     }
@@ -120,7 +162,7 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
         val now = Calendar.getInstance()
         val dateRangePicker = MaterialDatePicker.Builder
             .dateRangePicker()
-            .setTitleText("Elige un periodo de ventas")
+            .setTitleText("Elige un periodo de tiempo")
             .setPositiveButtonText("Guardar")
             .build()
         dateRangePicker.show(parentFragmentManager,"date_range_picker")
@@ -137,7 +179,13 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
             topDate = longToDate(second)
 
             binding.btnPickDateRange.isEnabled = true
-            viewModel.getSalesRange("date_created_sale",lowDate,topDate,selectedBranchId.toString(),"id_branch_sale")
+            if(context == "sale"){
+                binding.btnPickDateRange.text = "Seleccionar periodo\n(Ventas del $lowDate al $topDate)"
+                viewModel.getSalesRange("date_created_sale",lowDate,topDate,selectedBranchId.toString(),"id_branch_sale")
+            }else{
+                binding.btnPickDateRange.text = "Seleccionar periodo\n(Compras del $lowDate al $topDate)"
+                viewModel.getPurchasesRange("date_created_purchase",lowDate,topDate,selectedBranchId.toString(),"id_branch_purchase")
+            }
         }
     }
 

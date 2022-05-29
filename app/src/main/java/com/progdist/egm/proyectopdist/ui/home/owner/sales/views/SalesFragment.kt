@@ -72,6 +72,24 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
             }
         }
 
+        binding.btnNewPurchase.setOnClickListener {
+
+            val permission = requireContext().checkCallingOrSelfPermission(android.Manifest.permission.CAMERA)
+            if(permission == PackageManager.PERMISSION_GRANTED){
+
+                val intent = Intent(requireActivity(), NewSaleActivity::class.java)
+                intent.putExtra("branchId",selectedBranchId)
+                intent.putExtra("userId",idUser)
+                intent.putExtra("context","purchase")
+                requireActivity().startActivity(intent)
+
+            } else {
+                binding.root.showToast("Se necesitan permisos para usar la cámara")
+                askCameraPermission.launch(Manifest.permission.CAMERA)
+            }
+
+        }
+
         binding.btnNewSale.setOnClickListener {
 
             val permission = requireContext().checkCallingOrSelfPermission(android.Manifest.permission.CAMERA)
@@ -80,6 +98,7 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
                 val intent = Intent(requireActivity(), NewSaleActivity::class.java)
                 intent.putExtra("branchId",selectedBranchId)
                 intent.putExtra("userId",idUser)
+                intent.putExtra("context","sale")
                 requireActivity().startActivity(intent)
 
             } else {
@@ -91,7 +110,14 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
 
         binding.btnListSales.setOnClickListener {
 
-            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment()
+            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("sale")
+            findNavController().navigate(action)
+
+        }
+
+        binding.btnListPurchases.setOnClickListener {
+
+            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("purchase")
             findNavController().navigate(action)
 
         }

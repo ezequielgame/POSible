@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.progdist.egm.proyectopdist.R
+import com.progdist.egm.proyectopdist.data.responses.sales.Purchase
 import com.progdist.egm.proyectopdist.data.responses.sales.Sale
 
-class SalesListItemsListAdapter() : RecyclerView.Adapter<SalesListItemsListAdapter.MyViewHolder>(){
+class SalesListItemsListAdapter(private val context: String) : RecyclerView.Adapter<SalesListItemsListAdapter.MyViewHolder>(){
 
-    private var itemsList: List<Sale>? = ArrayList()
+    private var itemsList: List<Any>? = ArrayList()
     private lateinit var mListener: onItemClickListener
     private lateinit var mLongListener: onItemLongClickListener
 
@@ -31,20 +32,20 @@ class SalesListItemsListAdapter() : RecyclerView.Adapter<SalesListItemsListAdapt
         mLongListener = listener
     }
 
-    fun setItemsList(itemsList: List<Sale>){
+    fun setItemsList(itemsList: List<Any>){
         this.itemsList = itemsList
     }
 
-    fun getItemsList(): List<Sale>? {
+    fun getItemsList(): List<Any>? {
         return this.itemsList
     }
 
 
-    fun getItem(position: Int): Sale{
+    fun getItem(position: Int): Any{
         return this.itemsList?.get(position)!!
     }
 
-    fun addItem(item: Sale){
+    fun addItem(item: Any){
         this.itemsList = this.itemsList?.plus(item)
     }
 
@@ -92,11 +93,21 @@ class SalesListItemsListAdapter() : RecyclerView.Adapter<SalesListItemsListAdapt
             saleTotal = view.findViewById(R.id.tvSaleTotal)
         }
 
-        fun bind(item: Sale){
-            saleName.text = "Venta #" + (getItemsList()!!.indexOf(item)+1).toString()
-            saleDate.text = "Fecha: " + item.date_created_sale
-            saleQuantity.text = "# Productos: " + item.total_quantity_sale.toString()
-            saleTotal.text = "$${item.total_sale}"
+        fun bind(item: Any){
+            if(context == "sale"){
+                item as Sale
+                saleName.text = "Venta #" + (getItemsList()!!.indexOf(item)+1).toString()
+                saleDate.text = "Fecha: " + item.date_created_sale
+                saleQuantity.text = "# Productos: " + item.total_quantity_sale.toString()
+                saleTotal.text = "$${item.total_sale}"
+            }else{
+                item as Purchase
+                saleName.text = "Compra #" + (getItemsList()!!.indexOf(item)+1).toString()
+                saleDate.text = "Fecha: " + item.date_created_purchase
+                saleQuantity.text = "# Productos: " + item.total_quantity_purchase.toString()
+                saleTotal.text = "$${item.total_purchase}"
+            }
+
         }
 
     }

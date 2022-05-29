@@ -11,7 +11,8 @@ class AddSale {
                                 idUserSale: Int,
                                 total: Float,
                                 quantity: Int,
-                                idPaymentSale: Int): Resource<Any> =
-        repository.addOwnerSale(idBranchSale, idCustomerSale, idUserSale, total,quantity, idPaymentSale)
+                                idPaymentSale: Int,
+                                idEmployeeSale: Int? = 1): Resource<Any> =
+        repository.addSale(idBranchSale, idCustomerSale, idUserSale, total,quantity, idPaymentSale,idEmployeeSale)
 
 }

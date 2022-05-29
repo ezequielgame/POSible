@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.owner.employees.views.AddEmployeeFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeeName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del empleado"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeeCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            app:startIconDrawable="@drawable/ic_account"
+            android:layout_margin="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfEmployeeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeeCode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Código"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeeMail"
+            app:layout_constraintEnd_toStartOf="@id/btnCodeScanner"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeeName"
+            app:layout_constraintWidth_percent="0.6"
+            app:startIconDrawable="@drawable/ic_barcode"
+            android:layout_margin="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfEmployeeCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCodeScanner"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:icon="@drawable/ic_barcode_scanner"
+            app:iconSize="30dp"
+            app:iconGravity="top"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="add"
+            app:layout_constraintStart_toEndOf="@id/tilEmployeeCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tilEmployeeCode"
+            app:layout_constraintBottom_toBottomOf="@id/tilEmployeeCode"
+            app:layout_constraintVertical_bias="0.3"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeeMail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Correo electrónico"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeePassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeeCode"
+            app:layout_constraintWidth_percent="0.8"
+            app:startIconDrawable="@drawable/ic_baseline_mail_outline_24"
+            android:layout_margin="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfEmployeeMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeePassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            app:endIconMode="password_toggle"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeeConfirmPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeeMail"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfEmployeePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeeConfirmPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Confirma la contraseña"
+            app:endIconMode="password_toggle"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeePhoneNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeePassword"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfEmployeeConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeePhoneNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Teléfono"
+            app:endIconMode="clear_text"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeeBranch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeeConfirmPassword"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_baseline_local_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tfEmployeePhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeeBranch"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Sucursal"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/tilEmployeeRole"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeePhoneNumber"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_outline_store_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvEmployeeBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmployeeRole"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:hint="Rol"
+            app:helperText="@string/helper_required"
+            app:layout_constraintBottom_toTopOf="@+id/btnAdd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeeBranch"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_margin="5dp"
+            app:startIconDrawable="@drawable/ic_role">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvEmployeeRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdd"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="@dimen/null_dimen"
+            android:layout_height="wrap_content"
+            android:text="Añadir"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmployeeRole"
+            app:layout_constraintWidth_percent="0.5"
+            android:layout_margin="5dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
+

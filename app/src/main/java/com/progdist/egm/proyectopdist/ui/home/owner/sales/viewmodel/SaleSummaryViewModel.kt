@@ -6,14 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.SalesRepository
-import com.progdist.egm.proyectopdist.data.responses.sales.GetCustomersResponse
-import com.progdist.egm.proyectopdist.data.responses.sales.GetPaymentTypesResponse
-import com.progdist.egm.proyectopdist.data.responses.sales.GetSalesItemsResponse
-import com.progdist.egm.proyectopdist.data.responses.sales.GetSalesResponse
-import com.progdist.egm.proyectopdist.domain.GetCustomers
-import com.progdist.egm.proyectopdist.domain.GetPaymentTypes
-import com.progdist.egm.proyectopdist.domain.GetSales
-import com.progdist.egm.proyectopdist.domain.GetSalesItems
+import com.progdist.egm.proyectopdist.data.responses.inventory.GetSuppliersResponse
+import com.progdist.egm.proyectopdist.data.responses.sales.*
+import com.progdist.egm.proyectopdist.domain.*
 import kotlinx.coroutines.launch
 
 class SaleSummaryViewModel(
@@ -23,11 +18,17 @@ class SaleSummaryViewModel(
     private val _getSalesItemsResponse: MutableLiveData<Resource<GetSalesItemsResponse>> = MutableLiveData()
     val getSalesItemsResponse: LiveData<Resource<GetSalesItemsResponse>> get() = _getSalesItemsResponse
 
+    private val _getPurchasesItemsResponse: MutableLiveData<Resource<GetPurchasesItemsResponse>> = MutableLiveData()
+    val getPurchasesItemsResponse: LiveData<Resource<GetPurchasesItemsResponse>> get() = _getPurchasesItemsResponse
+
     private val _getPaymentTypesResponse: MutableLiveData<Resource<GetPaymentTypesResponse>> = MutableLiveData()
     val getPaymentTypesResponse: LiveData<Resource<GetPaymentTypesResponse>> get() = _getPaymentTypesResponse
 
     private val _getCustomersResponse: MutableLiveData<Resource<GetCustomersResponse>> = MutableLiveData()
     val getCustomersResponse: LiveData<Resource<GetCustomersResponse>> get() = _getCustomersResponse
+
+    private val _getSuppliersResponse: MutableLiveData<Resource<GetSuppliersResponse>> = MutableLiveData()
+    val getSuppliersResponse: LiveData<Resource<GetSuppliersResponse>> get() = _getSuppliersResponse
 
     fun getSalesItems(
         where: String,
@@ -35,6 +36,14 @@ class SaleSummaryViewModel(
     ) = viewModelScope.launch {
         val getSalesItemsUseCase = GetSalesItems()
         _getSalesItemsResponse.value = (getSalesItemsUseCase(repository,where,idWhere) as Resource<GetSalesItemsResponse>)
+    }
+
+    fun getPurchasesItems(
+        where: String,
+        idWhere: String
+    ) = viewModelScope.launch {
+        val getPurchasesItemsUseCase = GetPurchasesItems()
+        _getPurchasesItemsResponse.value = (getPurchasesItemsUseCase(repository,where,idWhere) as Resource<GetPurchasesItemsResponse>)
     }
 
     fun getPaymentTypes(
@@ -51,6 +60,14 @@ class SaleSummaryViewModel(
     ) = viewModelScope.launch{
         val getCustomersUseCase = GetCustomers()
         _getCustomersResponse.value = (getCustomersUseCase(repository,where,idWhere) as Resource<GetCustomersResponse>)
+    }
+
+    fun getSuppliers(
+        where: String,
+        userId: Int
+    ) = viewModelScope.launch{
+        val getSuppliersUseCase = GetSuppliers()
+        _getSuppliersResponse.value = (getSuppliersUseCase(repository,where,userId) as Resource<GetSuppliersResponse>)
     }
 
 }

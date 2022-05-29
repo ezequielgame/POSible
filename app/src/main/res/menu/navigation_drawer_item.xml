@@ -4,13 +4,13 @@
     tools:showIn="navigation_view">
 
 
-    <item android:title="Perfil">
+    <item android:title="@string/nav_drawer_profle_section_title">
         <menu>
 
-            <item
-                android:id="@+id/nav_drawer_me"
-                android:icon="@drawable/ic_account"
-                android:title="Mi perfil"/>
+<!--            <item-->
+<!--                android:id="@+id/nav_drawer_me"-->
+<!--                android:icon="@drawable/ic_account"-->
+<!--                android:title="Mi perfil"/>-->
 
             <item
                 android:id="@+id/nav_drawer_current_branch"

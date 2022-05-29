@@ -13,7 +13,7 @@ import com.progdist.egm.proyectopdist.R
 import com.progdist.egm.proyectopdist.data.SaleItem
 import com.progdist.egm.proyectopdist.data.responses.inventory.Item
 
-class NewSaleItemsListAdapter(private val onAddBtnClicked: () -> Unit, private val onMinBtnClicked: () -> Unit) : RecyclerView.Adapter<NewSaleItemsListAdapter.MyViewHolder>(){
+class NewSaleItemsListAdapter(private val onAddBtnClicked: () -> Unit, private val onMinBtnClicked: () -> Unit,private val context:String) : RecyclerView.Adapter<NewSaleItemsListAdapter.MyViewHolder>(){
 
     private var itemsList: List<SaleItem>? = ArrayList()
     private lateinit var mListener: onItemClickListener
@@ -104,9 +104,17 @@ class NewSaleItemsListAdapter(private val onAddBtnClicked: () -> Unit, private v
 
         fun bind(item: SaleItem){
             itemName.text = item.item.name_item
-            itemPrice.text = "Precio: $ ${item.item.sale_price_item * item.qty}"
+            when(context){
+                "sale"->{
+                    itemPrice.text = "Precio: $ ${item.item.sale_price_item * item.qty}"
+                    itemStock.text = "Disponibles: ${item.item.stock_item - item.qty}"
+                }
+                "purchase"->{
+                    itemPrice.text = "Precio: $ ${item.item.purchase_price_item * item.qty}"
+                    itemStock.text = "Disponibles: ${item.item.stock_item + item.qty}"
+                }
+            }
             quantity.text = item.qty.toString()
-            itemStock.text = "Disponibles: ${item.item.stock_item - item.qty}"
             addBtn.setOnClickListener {
                 addQuantity(item)
                 onAddBtnClicked()
@@ -121,7 +129,7 @@ class NewSaleItemsListAdapter(private val onAddBtnClicked: () -> Unit, private v
             val saleItems: ArrayList<SaleItem> = ArrayList()
             getItemsList()!!.forEach { saleItem->
                 if(saleItem.item.id_item == item.item.id_item){
-                    if(saleItem.qty + 1 <= item.item.stock_item){
+                    if((saleItem.qty + 1 <= item.item.stock_item && context == "sale") || context == "purchase"){
                         saleItems.add(SaleItem(saleItem.item,saleItem.qty+1))
                     } else{
                         return

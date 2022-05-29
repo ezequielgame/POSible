@@ -8,7 +8,9 @@ import com.progdist.egm.proyectopdist.ui.home.owner.HomeViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.AddBranchViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.BranchesSummaryViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.BranchesViewModel
-import com.progdist.egm.proyectopdist.ui.home.owner.employees.ManageEmployeesViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.employees.viewmodel.AddEmployeeViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.employees.viewmodel.EmployeeSummaryViewModel
+import com.progdist.egm.proyectopdist.ui.home.owner.employees.viewmodel.ManageEmployeesViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.*
 import com.progdist.egm.proyectopdist.ui.home.owner.sales.viewmodel.*
 import com.progdist.egm.proyectopdist.ui.main.MainViewModel
@@ -62,6 +64,10 @@ class ViewModelFactory(
                 repository as SalesRepository) as T
             modelClass.isAssignableFrom(SaleSummaryViewModel::class.java) -> SaleSummaryViewModel(
                 repository as SalesRepository) as T
+            modelClass.isAssignableFrom(AddEmployeeViewModel::class.java) -> AddEmployeeViewModel(
+                repository as ManageEmployeesRepository) as T
+            modelClass.isAssignableFrom(EmployeeSummaryViewModel::class.java) ->EmployeeSummaryViewModel(
+                repository as ManageEmployeesRepository) as T
             else -> throw IllegalArgumentException("View Model Class Not Found")
         }
     }

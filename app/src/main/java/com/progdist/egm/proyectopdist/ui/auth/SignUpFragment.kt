@@ -123,7 +123,6 @@ class SignUpFragment : BaseFragment<AuthViewModel, FragmentSignUpBinding, AuthRe
                 binding.tilConfirmPassword.requestFocus()
                 valid = false
             }
-
         }
         return valid
     }

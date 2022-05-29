@@ -13,7 +13,7 @@ import com.progdist.egm.proyectopdist.R
 import com.progdist.egm.proyectopdist.data.SaleItem
 import com.progdist.egm.proyectopdist.data.responses.inventory.Item
 
-class SaleSummaryListAdapter() : RecyclerView.Adapter<SaleSummaryListAdapter.MyViewHolder>(){
+class SaleSummaryListAdapter(private val context: String) : RecyclerView.Adapter<SaleSummaryListAdapter.MyViewHolder>(){
 
     private var itemsList: List<SaleItem>? = ArrayList()
     private lateinit var mListener: onItemClickListener
@@ -97,10 +97,15 @@ class SaleSummaryListAdapter() : RecyclerView.Adapter<SaleSummaryListAdapter.MyV
 
         }
         fun bind(item: SaleItem){
+            if(context == "sale"){
+                itemPrice.text = "$${item.item.sale_price_item}"
+                itemTotal.text = "$${item.qty * item.item.sale_price_item}"
+            }else{
+                itemPrice.text = "$${item.item.purchase_price_item}"
+                itemTotal.text = "$${item.qty * item.item.purchase_price_item}"
+            }
             itemName.text = item.item.name_item
-            itemPrice.text = "$${item.item.sale_price_item}"
             itemQuantity.text = item.qty.toString()
-            itemTotal.text = "$${item.qty * item.item.sale_price_item}"
         }
     }
 

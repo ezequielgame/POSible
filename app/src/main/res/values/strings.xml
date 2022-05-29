@@ -44,6 +44,9 @@
     <string name="ucrop_rotate">Rotar</string>
     <string name="ucrop_scale">Escalar</string>
     <string name="ucrop_crop">Recortar</string>
+    <string name="sales_section_title">Caja</string>
+    <string name="inventory_section_title">Inventario</string>
+    <string name="nav_drawer_profle_section_title">Perfil</string>
     <!-- uCrop string resource end -->
 
 

@@ -34,14 +34,17 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
 
     private lateinit var codeScanner: CodeScanner
     lateinit var scannerView: CodeScannerView
+    lateinit var context: String
 
     private lateinit var recyclerAdapter: NewSaleItemsListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        context = intent.getStringExtra("context").toString()
 
         initScanner()
         initRecyclerView()
+
 
         if(intent.getBooleanExtra("renewSale",false)) {
             recyclerAdapter.setItemsList(listOf())
@@ -61,8 +64,6 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
             }
         })
 
-
-
         viewModel.getItemsResponse.observe(this){
             when(it){
                 is Resource.success->{
@@ -70,35 +71,50 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
                         val saleItems: ArrayList<SaleItem> = ArrayList()
                         var find = false
                         recyclerAdapter.getItemsList()!!.forEach { saleItem->
+                            //Creating new list
                             if(saleItem.item.id_item == it.value.result[0].id_item){
-                                if(saleItem.qty + 1 <= saleItem.item.stock_item){
+                                // if item already in list
+                                //Check available stock if selling or add it anyway if purchasing
+                                if((saleItem.qty + 1 <= saleItem.item.stock_item && context == "sale") || context == "purchase"){
                                     saleItems.add(SaleItem(saleItem.item,saleItem.qty+1))
                                     find = true
-                                } else{
-                                    return@observe
+                                }else {
+                                    return@observe // No stock, and not purchasing, do nothing
                                 }
                             }else{
+                                // We add the item, not concern
                                 saleItems.add(saleItem)
                             }
                         }
                         if(!find){
+                            //There was not in the list, add it
                             recyclerAdapter.addItem(SaleItem(it.value.result[0],1))
                         }else{
+                            //Apply new list
                             recyclerAdapter.setItemsList(saleItems)
                         }
                         var total = 0f
                         recyclerAdapter.getItemsList()!!.forEach {
-                            total += it.qty * it.item.sale_price_item
+                            if(context == "sale"){
+                                total += it.qty * it.item.sale_price_item
+                            } else{
+                                total += it.qty * it.item.purchase_price_item
+                            }
                         }
                         binding.btnNewSale.setText("Proceder al pago: $${total}")
                         recyclerAdapter.notifyDataSetChanged()
                     }else{
-                        if(it.value.result[0].stock_item > 0){
-                            val total = it.value.result[0].sale_price_item
+                        if((it.value.result[0].stock_item > 0 && context == "sale") || context == "purchase") {
+                            val total: Float
+                            if(context == "sale"){
+                                total = it.value.result[0].sale_price_item
+                            }else{
+                                total = it.value.result[0].purchase_price_item
+                            }
                             recyclerAdapter.addItem(SaleItem(it.value.result[0],1))
                             binding.btnNewSale.setText("Proceder al pago: $${total}")
                             recyclerAdapter.notifyDataSetChanged()
-                        } else{
+                        }else{
                             binding.root.showToast("Al parecer ya no hay existencias de ese producto")
                         }
                     }
@@ -116,7 +132,6 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
                 binding.root.showToast("No hay productos en el carrito")
             }else{
                 val itemsInfo: ArrayList<SaleItemInfo> = ArrayList()
-                var idItem: Int
                 val branchId = intent.getIntExtra("branchId",-1)
                 val customerId = 1
                 val userId = intent.getIntExtra("userId",-1)
@@ -131,6 +146,8 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
                 }
                 val intent = Intent(this,CheckoutActivity::class.java)
                 intent.putParcelableArrayListExtra("itemsList",itemsInfo)
+                intent.putExtra("context",context)
+                intent.putExtra("userId",userId)
                 startActivity(intent)
             }
         }
@@ -142,16 +159,24 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
         recyclerAdapter = NewSaleItemsListAdapter({
             var total = 0f
             recyclerAdapter.getItemsList()!!.forEach {
-                total += it.qty * it.item.sale_price_item
+                if(context == "sale"){
+                    total += it.qty * it.item.sale_price_item
+                } else {
+                    total += it.qty * it.item.purchase_price_item
+                }
             }
             binding.btnNewSale.setText("Proceder al pago: $${total}")
         },{
             var total = 0f
             recyclerAdapter.getItemsList()!!.forEach {
-                total += it.qty * it.item.sale_price_item
+                if(context == "sale"){
+                    total += it.qty * it.item.sale_price_item
+                } else {
+                    total += it.qty * it.item.purchase_price_item
+                }
             }
             binding.btnNewSale.setText("Proceder al pago: $${total}")
-        })
+        }, context)
         binding.newSaleItemsRecycler.adapter = recyclerAdapter
 
     }
@@ -214,7 +239,7 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
 
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
             runOnUiThread {
-                Toast.makeText(this, "Camera initialization error: ${it.message}",
+                Toast.makeText(this, "Error iniciando la cámara ${it.message}",
                     Toast.LENGTH_LONG).show()
             }
         }

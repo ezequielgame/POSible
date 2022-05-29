@@ -23,9 +23,16 @@
 
     <fragment
         android:id="@+id/manageEmployeesFragment"
-        android:name="com.progdist.egm.proyectopdist.ui.home.owner.employees.ManageEmployeesFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.employees.views.ManageEmployeesFragment"
         android:label="fragment_manage_employees"
-        tools:layout="@layout/fragment_manage_employees" />
+        tools:layout="@layout/fragment_manage_employees" >
+        <action
+            android:id="@+id/action_manageEmployeesFragment_to_addEmployeeFragment"
+            app:destination="@id/addEmployeeFragment" />
+        <action
+            android:id="@+id/action_manageEmployeesFragment_to_employeeSummaryFragment"
+            app:destination="@id/employeeSummaryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/salesFragment"
@@ -210,6 +217,9 @@
         <action
             android:id="@+id/action_salesListFragment_to_saleSummaryFragment"
             app:destination="@id/saleSummaryFragment" />
+        <argument
+            android:name="context"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/saleSummaryFragment"
@@ -221,6 +231,36 @@
             app:destination="@id/salesListFragment" />
         <argument
             android:name="saleId"
+            app:argType="integer" />
+        <argument
+            android:name="context"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEmployeeFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.employees.views.AddEmployeeFragment"
+        android:label="AddEmployeeFragment" >
+        <action
+            android:id="@+id/action_addEmployeeFragment_to_manageEmployeesFragment"
+            app:destination="@id/manageEmployeesFragment"
+            app:popUpTo="@id/manageEmployeesFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeSummaryFragment"
+        android:name="com.progdist.egm.proyectopdist.ui.home.owner.employees.views.EmployeeSummaryFragment"
+        android:label="EmployeeSummaryFragment" >
+        <action
+            android:id="@+id/action_employeeSummaryFragment_to_manageEmployeesFragment"
+            app:destination="@id/manageEmployeesFragment"
+            app:popUpTo="@id/manageEmployeesFragment" />
+        <argument
+            android:name="employeeId"
+            app:argType="integer" />
+        <argument
+            android:name="userId"
             app:argType="integer" />
     </fragment>
 

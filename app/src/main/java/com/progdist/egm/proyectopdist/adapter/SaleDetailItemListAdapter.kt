@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.progdist.egm.proyectopdist.R
+import com.progdist.egm.proyectopdist.data.responses.sales.PurchaseItem
 import com.progdist.egm.proyectopdist.data.responses.sales.SaleItem
 
-class SaleDetailItemListAdapter() : RecyclerView.Adapter<SaleDetailItemListAdapter.MyViewHolder>(){
+class SaleDetailItemListAdapter(private val context: String) : RecyclerView.Adapter<SaleDetailItemListAdapter.MyViewHolder>(){
 
-    private var itemsList: List<SaleItem>? = ArrayList()
+    private var itemsList: List<Any>? = ArrayList()
     private lateinit var mListener: onItemClickListener
     private lateinit var mLongListener: onItemLongClickListener
 
@@ -30,20 +31,20 @@ class SaleDetailItemListAdapter() : RecyclerView.Adapter<SaleDetailItemListAdapt
         mLongListener = listener
     }
 
-    fun setItemsList(itemsList: List<SaleItem>){
+    fun setItemsList(itemsList: List<Any>){
         this.itemsList = itemsList
     }
 
-    fun getItemsList(): List<SaleItem>? {
+    fun getItemsList(): List<Any>? {
         return this.itemsList
     }
 
 
-    fun getItem(position: Int): SaleItem{
+    fun getItem(position: Int): Any{
         return this.itemsList?.get(position)!!
     }
 
-    fun addItem(item: SaleItem){
+    fun addItem(item: Any){
         this.itemsList = this.itemsList?.plus(item)
     }
 
@@ -89,11 +90,20 @@ class SaleDetailItemListAdapter() : RecyclerView.Adapter<SaleDetailItemListAdapt
             itemTotal = view.findViewById(R.id.tvItemTotal)
 
         }
-        fun bind(item: SaleItem){
-            itemName.text = item.name_item
-            itemPrice.text = "$${item.sale_price_item}"
-            itemQuantity.text = item.quantity_sale_item.toString()
-            itemTotal.text = "$${item.quantity_sale_item * item.sale_price_item}"
+        fun bind(item: Any){
+            if(context == "sale"){
+                item as SaleItem
+                itemPrice.text = "$${item.sale_price_item}"
+                itemName.text = item.name_item
+                itemQuantity.text = item.quantity_sale_item.toString()
+                itemTotal.text = "$${item.quantity_sale_item * item.sale_price_item}"
+            }else{
+                item as PurchaseItem
+                itemPrice.text = "$${item.purchase_price_item}"
+                itemName.text = item.name_item
+                itemQuantity.text = item.quantity_purchase_item.toString()
+                itemTotal.text = "$${item.total_purchase_item}"
+            }
         }
 
     }
