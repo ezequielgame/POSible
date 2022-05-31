@@ -16,7 +16,7 @@ import com.progdist.egm.proyectopdist.data.network.AuthApi
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.AuthRepository
 import com.progdist.egm.proyectopdist.databinding.FragmentLoginBinding
-import com.progdist.egm.proyectopdist.ui.home.employee.EmployeeHomeActivity
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 
 class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepository>() {
@@ -55,7 +55,6 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                     val intent:Intent = Intent(requireContext(), EmployeeHomeActivity::class.java)
                     intent.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("employeeId",  it.value.employee.id_employee)
-                    intent.putExtra("roleId",it.value.employee.id_role_employee)
                     viewModel.saveAuthToken(it.value.employee.token_employee)
                     startActivity(intent)
                 }

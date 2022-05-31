@@ -282,10 +282,20 @@ class CheckoutActivity : BaseActivity<CheckoutViewModel,ActivityCheckoutBinding,
 
             when(context){
                 "sale"->{
-                    viewModel.addSale(itemsList[0].idBranch,idCustomerSelected,itemsList[0].idUser,total, totalQ,idPaymentTypeSelected)
+                    val employeeId = intent.getIntExtra("employeeId",-1)
+                    if(employeeId != -1){
+                        viewModel.addSale(itemsList[0].idBranch,idCustomerSelected,itemsList[0].idUser,total, totalQ,idPaymentTypeSelected, idEmployeeSale = employeeId)
+                    }else{
+                        viewModel.addSale(itemsList[0].idBranch,idCustomerSelected,itemsList[0].idUser,total, totalQ,idPaymentTypeSelected)
+                    }
                 }
                 "purchase"->{
-                    viewModel.addPurchase(itemsList[0].idBranch,idSupplierSelected,itemsList[0].idUser,total, totalQ,idPaymentTypeSelected)
+                    val employeeId = intent.getIntExtra("employeeId",-1)
+                    if(employeeId != -1){
+                        viewModel.addPurchase(itemsList[0].idBranch,idSupplierSelected,itemsList[0].idUser,total, totalQ,idPaymentTypeSelected, idEmployeePurchase = employeeId)
+                    }else{
+                        viewModel.addPurchase(itemsList[0].idBranch,idSupplierSelected,itemsList[0].idUser,total, totalQ,idPaymentTypeSelected)
+                    }
                 }
             }
 

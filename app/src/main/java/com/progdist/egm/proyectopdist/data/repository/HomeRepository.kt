@@ -2,6 +2,7 @@ package com.progdist.egm.proyectopdist.data.repository
 
 import com.progdist.egm.proyectopdist.data.UserPreferences
 import com.progdist.egm.proyectopdist.data.network.HomeApi
+import retrofit2.http.Query
 
 class HomeRepository(
     private val api: HomeApi,
@@ -29,6 +30,13 @@ class HomeRepository(
 
     suspend fun deleteAuthToken(){
         preferences.deleteAuthToken()
+    }
+
+    suspend fun getEmployees(
+        where: String,
+        idWhere: String
+    ) = safeApiCall {
+        api.getEmployees(where, idWhere)
     }
 
 }

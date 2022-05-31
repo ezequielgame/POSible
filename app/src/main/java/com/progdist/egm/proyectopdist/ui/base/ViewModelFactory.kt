@@ -3,6 +3,7 @@ package com.progdist.egm.proyectopdist.ui.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.progdist.egm.proyectopdist.data.repository.*
+import com.progdist.egm.proyectopdist.ui.CodeScannerViewModel
 import com.progdist.egm.proyectopdist.ui.auth.AuthViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeViewModel
 import com.progdist.egm.proyectopdist.ui.home.owner.branches.viewmodel.AddBranchViewModel
@@ -54,6 +55,8 @@ class ViewModelFactory(
                 repository as InventoryRepository) as T
             modelClass.isAssignableFrom(ItemSummaryViewModel::class.java) -> ItemSummaryViewModel(
                 repository as InventoryRepository) as T
+            modelClass.isAssignableFrom(CodeScannerViewModel::class.java) -> CodeScannerViewModel(
+                repository as SalesRepository) as T
             modelClass.isAssignableFrom(NewSaleViewModel::class.java) -> NewSaleViewModel(
                 repository as SalesRepository) as T
             modelClass.isAssignableFrom(CheckoutViewModel::class.java) -> CheckoutViewModel(

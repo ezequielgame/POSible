@@ -6,7 +6,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="#EEEEEE"
 android:id="@+id/drawerLayout"
-tools:context=".ui.home.employee.EmployeeHomeActivity">
+tools:context=".ui.home.employee.view.EmployeeHomeActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -86,7 +86,7 @@ tools:context=".ui.home.employee.EmployeeHomeActivity">
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:navGraph="@navigation/nav_graph" />
+                app:navGraph="@navigation/nav_graph"/>
 
 
         </androidx.core.widget.NestedScrollView>
@@ -136,7 +136,7 @@ tools:context=".ui.home.employee.EmployeeHomeActivity">
     android:fitsSystemWindows="true"
     app:headerLayout="@layout/nav_drawer_header"
     android:layout_gravity="start"
-    app:menu="@menu/navigation_drawer_item"
+    app:menu="@menu/employee_navigation_drawer_item"
     app:itemIconTint="@color/color_primary_light"/>
 
 

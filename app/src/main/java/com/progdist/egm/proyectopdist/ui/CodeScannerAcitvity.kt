@@ -10,19 +10,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.budiyev.android.codescanner.*
+import com.progdist.egm.proyectopdist.data.network.SalesApi
+import com.progdist.egm.proyectopdist.data.repository.SalesRepository
 import com.progdist.egm.proyectopdist.databinding.ActivityCodeScannerBinding
+import com.progdist.egm.proyectopdist.ui.base.BaseActivity
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 
-class CodeScannerAcitvity : AppCompatActivity() {
-
-    private lateinit var _binding: ActivityCodeScannerBinding
-    val binding get() = _binding
+class CodeScannerAcitvity : BaseActivity<CodeScannerViewModel,ActivityCodeScannerBinding,SalesRepository>() {
 
     private lateinit var codeScanner: CodeScanner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityCodeScannerBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -68,9 +69,16 @@ class CodeScannerAcitvity : AppCompatActivity() {
             }
 
             runOnUiThread {
-                binding.btnSaveCode.visibility = View.VISIBLE
-
+                val tool = intent.getBooleanExtra("tool",false)
+                if(!tool){
+                    binding.btnSaveCode.visibility = View.VISIBLE
+                }
                 binding.tvScanStatus.setTextAnimation("Resultado: ${scanResult.text}",200)
+
+                if(tool){
+                    val userId = intent.getIntExtra("userId",-1)
+                    viewModel.editCode(userId,"id_user_code",scanResult.text)
+                }
 
                 binding.btnSaveCode.setOnClickListener {
                     val data = Intent()
@@ -107,5 +115,15 @@ class CodeScannerAcitvity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         codeScanner.startPreview()
+    }
+
+    override fun getViewModel(): Class<CodeScannerViewModel> = CodeScannerViewModel::class.java
+
+    override fun getViewBinding(): ActivityCodeScannerBinding = ActivityCodeScannerBinding.inflate(layoutInflater)
+
+    override fun getActivityRepository(): SalesRepository {
+        val token = runBlocking { userPreferences.authToken.first() }
+        val api = remoteDataSource.buildApi(SalesApi::class.java,token)
+        return SalesRepository(api,userPreferences)
     }
 }

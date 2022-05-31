@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.progdist.egm.proyectopdist.R
 import com.progdist.egm.proyectopdist.adapter.ItemsListAdapter
 import com.progdist.egm.proyectopdist.adapter.SaleDetailItemListAdapter
@@ -17,6 +18,7 @@ import com.progdist.egm.proyectopdist.data.network.SalesApi
 import com.progdist.egm.proyectopdist.data.repository.SalesRepository
 import com.progdist.egm.proyectopdist.databinding.FragmentSaleSummaryBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.ItemsFragmentDirections
 import com.progdist.egm.proyectopdist.ui.home.owner.sales.viewmodel.SaleSummaryViewModel
 import com.progdist.egm.proyectopdist.ui.showToast
 import kotlinx.coroutines.flow.first
@@ -30,6 +32,8 @@ class SaleSummaryFragment : BaseFragment<SaleSummaryViewModel,FragmentSaleSummar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireArguments().getString("context").toString()
+        val employeeName = requireArguments().getString("employeeName","Empleado")
+        binding.tvSaleSummaryEmployeeCardTitle.text = "Empleado: " + employeeName
         initRecyclerView()
 
         val collapsingToolbarLayout =
@@ -51,13 +55,31 @@ class SaleSummaryFragment : BaseFragment<SaleSummaryViewModel,FragmentSaleSummar
                             "$" + it.value.result[0].total_sale.toString()
                         binding.tvSaleSummaryTotalQuantity.text =
                             it.value.result[0].total_quantity_sale.toString()
+                        var totalGot = 0
+                        it.value.result.forEach {
+                            totalGot += it.quantity_sale_item
+                        }
+                        if(totalGot != it.value.result[0].total_quantity_sale){
+                            binding.root.showToast("No se pudieron recuperar algunos productos eliminados")
+                        }
                         viewModel.getPaymentTypes("id_payment_type",
                             it.value.result[0].id_payment_type_sale.toString())
                         viewModel.getCustomers("id_customer",
                             it.value.result[0].id_customer_sale.toString())
                     }
                     is Resource.failure -> {
-                        binding.root.showToast("Error")
+                        val builder = MaterialAlertDialogBuilder(requireContext())
+                        builder.apply {
+                            setTitle("Error")
+                            setMessage("${it.errorCode} Los productos de esta venta han sido eliminados")
+                            setPositiveButton("Regresar") { dialog, which ->
+                                val action = SaleSummaryFragmentDirections.actionSaleSummaryFragmentToSalesListFragment("sale")
+                                findNavController().navigate(action)
+                            }
+                            setCancelable(false)
+                        }
+                        val dialog = builder.create()
+                        dialog.show()
                     }
                 }
             }
@@ -69,7 +91,7 @@ class SaleSummaryFragment : BaseFragment<SaleSummaryViewModel,FragmentSaleSummar
                         binding.tvSaleSummaryCustomerCardTitle.text = "Cliente: " + it.value.result[0].name_customer
                     }
                     is Resource.failure->{
-
+                        binding.tvSaleSummaryCustomerCardTitle.text = "No se pudo recuperar el cliente: ${it.errorCode}"
                     }
                 }
             }
@@ -86,13 +108,32 @@ class SaleSummaryFragment : BaseFragment<SaleSummaryViewModel,FragmentSaleSummar
                             "$" + it.value.result[0].total_purchase.toString()
                         binding.tvSaleSummaryTotalQuantity.text =
                             it.value.result[0].total_quantity_purchase.toString()
+                        var totalGot = 0
+                        it.value.result.forEach {
+                            totalGot += it.quantity_purchase_item
+                        }
+                        if(totalGot != it.value.result[0].total_quantity_purchase){
+                            binding.root.showToast("No se pudieron recuperar algunos productos eliminados")
+                        }
                         viewModel.getPaymentTypes("id_payment_type",
                             it.value.result[0].id_payment_type_purchase.toString())
                         viewModel.getSuppliers("id_supplier",
                             it.value.result[0].id_supplier_purchase)
+
                     }
                     is Resource.failure -> {
-                        binding.root.showToast("Error")
+                        val builder = MaterialAlertDialogBuilder(requireContext())
+                        builder.apply {
+                            setTitle("Error")
+                            setMessage("${it.errorCode} Los productos de esta compra han sido eliminados")
+                            setPositiveButton("Regresar") { dialog, which ->
+                                val action = SaleSummaryFragmentDirections.actionSaleSummaryFragmentToSalesListFragment("purchase")
+                                findNavController().navigate(action)
+                            }
+                            setCancelable(false)
+                        }
+                        val dialog = builder.create()
+                        dialog.show()
                     }
                 }
             }
@@ -104,7 +145,7 @@ class SaleSummaryFragment : BaseFragment<SaleSummaryViewModel,FragmentSaleSummar
                         binding.tvSaleSummaryCustomerCardTitle.text = "Proveedor: " + it.value.result[0].name_supplier
                     }
                     is Resource.failure->{
-
+                        binding.tvSaleSummaryCustomerCardTitle.text = "No se ha podido recuperar el proveedor: ${it.errorCode}"
                     }
                 }
             }
@@ -117,7 +158,7 @@ class SaleSummaryFragment : BaseFragment<SaleSummaryViewModel,FragmentSaleSummar
                     binding.tvSaleSummaryPaymentCardTitle.text = "Método de Pago: " + it.value.result[0].name_payment_type
                 }
                 is Resource.failure->{
-
+                    binding.tvSaleSummaryPaymentCardTitle.text = "No se ha podido recuperar el método de pago: ${it.errorCode}"
                 }
             }
         }

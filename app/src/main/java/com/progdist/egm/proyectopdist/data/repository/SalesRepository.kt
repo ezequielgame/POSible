@@ -129,4 +129,11 @@ class SalesRepository(
         api.getSuppliers(where,userId)
     }
 
+    suspend fun editCode(
+        id: Int,
+        nameId: String,
+        code: String
+    ) = safeApiCall {
+        api.editCode(id, nameId, code)
+    }
 }

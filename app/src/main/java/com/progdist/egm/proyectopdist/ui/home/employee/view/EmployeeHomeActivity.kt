@@ -1,20 +1,20 @@
-package com.progdist.egm.proyectopdist.ui.home.owner
+package com.progdist.egm.proyectopdist.ui.home.employee.view
 
+import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.progdist.egm.proyectopdist.R
 import com.progdist.egm.proyectopdist.SplashActivity
@@ -23,19 +23,20 @@ import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.HomeRepository
 import com.progdist.egm.proyectopdist.data.responses.branches.Branch
 import com.progdist.egm.proyectopdist.data.responses.branches.ExtendedBranch
+import com.progdist.egm.proyectopdist.databinding.ActivityEmployeeHomeBinding
 import com.progdist.egm.proyectopdist.databinding.ActivityHomeBinding
-import com.progdist.egm.proyectopdist.ui.CodeScannerAcitvity
 import com.progdist.egm.proyectopdist.ui.base.BaseActivity
+import com.progdist.egm.proyectopdist.ui.home.owner.HomeViewModel
 import com.progdist.egm.proyectopdist.ui.showToast
+import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import java.lang.Exception
 
-class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeRepository>() {
+class EmployeeHomeActivity : BaseActivity<HomeViewModel,ActivityEmployeeHomeBinding,HomeRepository>() {
 
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
-    private var user: Int = -1
+    var employeeId: Int = -1
     var branches = arrayOf<Branch>()
     var selectedBranch: ExtendedBranch? = null
     lateinit var drawerLayout: DrawerLayout
@@ -47,9 +48,12 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
     lateinit var headerBranch: TextView
     lateinit var headeImg: ImageView
     var selectedBranchId: Int? = -1
+    var employeeRoleId: Int? = -1
+    var userId: Int? = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        employeeId = intent.getIntExtra("employeeId", -1)
 
         drawerLayout = binding.drawerLayout
         navDrawer = binding.drawerNavView
@@ -60,19 +64,19 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
         headerBranch = drawerHeader.findViewById<View>(R.id.tvBranch) as TextView
         headeImg = drawerHeader.findViewById<View>(R.id.ivUser) as ImageView
 
-        user = intent.getIntExtra("user", -1)
+        viewModel.getEmployees("id_employee",employeeId.toString())
 
-        headerBranch.text = "Selecciona una sucursal"
-
-        viewModel.getUser(user)
-
-        selectedBranchId = runBlocking { userPreferences.idSelectedBranch.first() }
-
-        viewModel.getBranchResponse.observe(this){
+        viewModel.getEmployeesResponse.observe(this){
             when(it){
                 is Resource.success->{
-                    selectedBranch = it.value.result[0]
-                    headerBranch.text = selectedBranch!!.name_branch
+                    viewModel.saveIdSelectedBranch(it.value.result[0].id_branch_employee)
+                    selectedBranchId = it.value.result[0].id_branch_employee
+                    headerName.text = it.value.result[0].name_employee
+                    headerBranch.text = it.value.result[0].name_branch
+                    headerMail.text = it.value.result[0].email_employee
+                    headerRole.text = it.value.result[0].name_role
+                    employeeRoleId = it.value.result[0].id_role_employee
+                    userId = it.value.result[0].id_user_employee
                 }
                 is Resource.failure->{
 
@@ -80,32 +84,9 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
             }
         }
 
-
-        if(selectedBranchId != -1 && selectedBranchId != null){
-            viewModel.getBranch(selectedBranchId!!)
+        viewModel.saveSelectedBranchResponse.observe(this){
+            navController.navigate(R.id.salesFragment)
         }
-
-        viewModel.getUserResponse.observe(this, Observer {
-
-            when (it) {
-
-                is Resource.success -> {
-                    headerName.text = it.value.result[0].name_user
-                    headerMail.text = it.value.result[0].email_user
-                    headerRole.text = it.value.result[0].name_role
-                    if (it.value.result[0].name_role == "Dueño") {
-
-                        headeImg.setImageResource(R.drawable.ic_admin)
-
-                    }
-                }
-
-                is Resource.failure -> {
-
-                }
-            }
-        })
-
 
         toggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer)
@@ -116,20 +97,6 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
         navDrawer.setNavigationItemSelectedListener {
 
             when (it.itemId) {
-                R.id.nav_drawer_codescanner->{
-                    val intent = Intent(this,CodeScannerAcitvity::class.java)
-                    intent.putExtra("tool",true)
-                    intent.putExtra("userId",user)
-                    this.startActivity(intent)
-                }
-                R.id.nav_drawer_current_branch -> {
-                    if (branches.isNotEmpty()) {
-                        pickBranch()
-                    } else {
-                        mostrarToast("No has creado ninguna sucursal")
-                    }
-
-                }
                 R.id.nav_drawer_logout -> {
                     val dialog = AlertDialog.Builder(this)
                         .setTitle("Salir")
@@ -149,7 +116,6 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
                         .create()
                     dialog.show()
                 }
-
             }
             true
         }
@@ -158,75 +124,21 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
         navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)!!
             .findNavController()
         bottomNav.setupWithNavController(navController)
+        navController.navigate(R.id.salesFragment)
 
         // always show selected Bottom Navigation item as selected (return true)
         bottomNav.setOnItemSelectedListener { item ->
             // In order to get the expected behavior, you have to call default Navigation method manually
-            if(item.itemId != R.id.branchesFragment){
-                navController.clearBackStack(item.itemId)
-            }
+//            navController.clearBackStack(item.itemId)
             NavigationUI.onNavDestinationSelected(item, navController)
             return@setOnItemSelectedListener true
         }
 
-
-
     }
-
-    fun pickBranch(): ExtendedBranch? {
-        val branchesNames: MutableList<String> = ArrayList()
-        branches.forEach {
-            branchesNames += it.name_branch
-        }
-        val branchesOptions: Array<String> = branchesNames.toTypedArray()
-
-        val builder = MaterialAlertDialogBuilder(this)
-        // dialog title
-        builder.setTitle("Selecciona una sucursal")
-
-        builder.setSingleChoiceItems(
-            branchesOptions, when (selectedBranch) {
-                null -> {
-                    -1
-                }
-                else -> {
-//                    branches.indexOf(selectedBranch)
-                    -1
-                }
-            }
-        ) { dialog, i -> }
-
-        // alert dialog positive button
-        builder.setPositiveButton("Guardar") { dialog, which ->
-            val position = (dialog as AlertDialog).listView.checkedItemPosition
-            // if selected, then get item text
-            if (position != -1) {
-                viewModel.getBranch(branches[position].id_branch)
-                viewModel.saveIdSelectedBranch(branches[position].id_branch)
-                headerBranch.text = branchesNames[position]
-            }
-        }
-
-        // alert dialog other buttons
-        builder.setNegativeButton("Cancelar", null)
-
-        // set dialog non cancelable
-        builder.setCancelable(true)
-
-        // finally, create the alert dialog and show it
-        val dialog = builder.create()
-        dialog.show()
-
-
-
-        return selectedBranch
-    }
-
-    fun mostrarToast(mensaje: String) = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
     override fun getViewModel(): Class<HomeViewModel> = HomeViewModel::class.java
 
-    override fun getViewBinding(): ActivityHomeBinding = ActivityHomeBinding.inflate(layoutInflater)
+    override fun getViewBinding(): ActivityEmployeeHomeBinding = ActivityEmployeeHomeBinding.inflate(layoutInflater)
 
     override fun getActivityRepository(): HomeRepository {
         val token = runBlocking { userPreferences.authToken.first() }

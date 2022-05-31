@@ -27,6 +27,7 @@ class CategorySummaryFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val roleId =requireArguments().getInt("roleId")
 
         val collapsingToolbarLayout =
             requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
@@ -37,12 +38,20 @@ class CategorySummaryFragment :
 
         val fab: FloatingActionButton =
             requireActivity().findViewById<View>(R.id.fabButton) as FloatingActionButton
-        fab.visibility = View.VISIBLE
+        if(roleId != 3){
+            fab.visibility = View.VISIBLE
+        }else{
+            fab.visibility = View.GONE
+        }
         fab.setImageResource(R.drawable.ic_edit)
 
         fab.setOnClickListener {
             setTextFieldsState(true)
-            fab.visibility = View.GONE
+            if(roleId != 3){
+                fab.visibility = View.VISIBLE
+            }else{
+                fab.visibility = View.GONE
+            }
             setTextInputLayoutsHelperText("Requerido*")
             binding.tilCategoryName.visibility = View.VISIBLE
             binding.btnSave.visibility = View.VISIBLE
@@ -82,11 +91,14 @@ class CategorySummaryFragment :
 
             if(validForm()){
                 saveInfo()
-                fab.visibility = View.VISIBLE
+                if(roleId != 3){
+                    fab.visibility = View.VISIBLE
+                }else{
+                    fab.visibility = View.GONE
+                }
                 setTextFieldsState(false)
                 setTextInputLayoutsHelperText("")
                 binding.tilCategoryName.visibility = View.GONE
-                binding.btnSave.visibility = View.GONE
                 viewModel.getCategories("id_category",requireArguments().getInt("categoryId"))
             }
 

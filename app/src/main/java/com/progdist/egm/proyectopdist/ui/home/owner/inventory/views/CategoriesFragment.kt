@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -17,6 +18,8 @@ import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
 import com.progdist.egm.proyectopdist.databinding.FragmentCategoriesBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
+import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.CategoriesViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -25,9 +28,22 @@ class CategoriesFragment : BaseFragment<CategoriesViewModel, FragmentCategoriesB
 
     lateinit var recyclerAdapter: CategoriesListAdapter
     var selectedBranchId: Int? = -1
+    var idUser: Int = -1
+    var roleId: Int = -1
+    lateinit var homeActivity: AppCompatActivity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        roleId = requireArguments().getInt("roleId", -1)
+
+        when(activity){
+            is HomeActivity->{
+                homeActivity = requireActivity() as HomeActivity
+            }
+            is EmployeeHomeActivity->{
+                homeActivity = requireActivity() as EmployeeHomeActivity
+            }
+        }
 
         initRecyclerView()
 
@@ -42,7 +58,11 @@ class CategoriesFragment : BaseFragment<CategoriesViewModel, FragmentCategoriesB
 
         val fab: FloatingActionButton =
             requireActivity().findViewById<View>(R.id.fabButton) as FloatingActionButton
-        fab.visibility = View.VISIBLE
+        if(roleId != 3){
+            fab.visibility = View.VISIBLE
+        }else{
+            fab.visibility = View.GONE
+        }
 
         fab.setImageResource(R.drawable.ic_add)
 
@@ -50,11 +70,13 @@ class CategoriesFragment : BaseFragment<CategoriesViewModel, FragmentCategoriesB
             val action = CategoriesFragmentDirections.actionCategoriesFragmentToAddCategoryFragment(selectedBranchId!!)
             findNavController().navigate(action)
         }
-        val idUser = activity?.intent?.getIntExtra("user", -1)
+        if(homeActivity is HomeActivity){
+            idUser = activity?.intent?.getIntExtra("user", -1)!!
+        }else if(homeActivity is EmployeeHomeActivity){
+            idUser = (homeActivity as EmployeeHomeActivity).userId!!
+        }
 
-
-
-        viewModel.getCategories("id_user_category", idUser!!)
+        viewModel.getCategories("id_user_category", idUser)
 
         viewModel.getCategoriesResponse.observe(viewLifecycleOwner){ getResponse ->
             when (getResponse) {
@@ -96,7 +118,7 @@ class CategoriesFragment : BaseFragment<CategoriesViewModel, FragmentCategoriesB
 
                 val categoryId: Int = recyclerAdapter.getCategory(position).id_category
 
-                val action = CategoriesFragmentDirections.actionCategoriesFragmentToCategorySummaryFragment(categoryId)
+                val action = CategoriesFragmentDirections.actionCategoriesFragmentToCategorySummaryFragment(categoryId,roleId)
                 findNavController().navigate(action)
 
             }
@@ -106,36 +128,38 @@ class CategoriesFragment : BaseFragment<CategoriesViewModel, FragmentCategoriesB
         recyclerAdapter.setOnItemLongClickListener(object :
             CategoriesListAdapter.onItemLongClickListener {
             override fun onItemLongClick(position: Int): Boolean {
-                val builder = MaterialAlertDialogBuilder(requireContext())
-                val options = arrayOf("Eliminar")
-                builder.apply {
-                    setTitle("Selecciona una opcion")
-                    setPositiveButton("Cerrar") { dialog, which -> }
-                    setItems(options) { dialog, which ->
-                        when (which) {
-                            0 -> {
-                                val deleteBuilder = MaterialAlertDialogBuilder(requireContext())
-                                deleteBuilder.apply {
-                                    setTitle("Eliminar")
-                                    setMessage("Se eliminará la categoría y todos sus productos. No se podrá recuperar")
-                                    setPositiveButton("Eliminar") { view, _ ->
-                                        val idDelete = recyclerAdapter.getCategory(position).id_category
-                                        viewModel.deleteCategory(idDelete, "id_category")
-                                    }
-                                    setNegativeButton("Cancelar") { view, _ ->
+                if(roleId != 3){
+                    val builder = MaterialAlertDialogBuilder(requireContext())
+                    val options = arrayOf("Eliminar")
+                    builder.apply {
+                        setTitle("Selecciona una opcion")
+                        setPositiveButton("Cerrar") { dialog, which -> }
+                        setItems(options) { dialog, which ->
+                            when (which) {
+                                0 -> {
+                                    val deleteBuilder = MaterialAlertDialogBuilder(requireContext())
+                                    deleteBuilder.apply {
+                                        setTitle("Eliminar")
+                                        setMessage("Se eliminará la categoría y todos sus productos. No se podrá recuperar")
+                                        setPositiveButton("Eliminar") { view, _ ->
+                                            val idDelete = recyclerAdapter.getCategory(position).id_category
+                                            viewModel.deleteCategory(idDelete, "id_category")
+                                        }
+                                        setNegativeButton("Cancelar") { view, _ ->
 
+                                        }
+                                        setCancelable(true)
+                                        create()
+                                        show()
                                     }
-                                    setCancelable(true)
-                                    create()
-                                    show()
                                 }
                             }
                         }
+                        setCancelable(true)
                     }
-                    setCancelable(true)
+                    val dialog = builder.create()
+                    dialog.show()
                 }
-                val dialog = builder.create()
-                dialog.show()
                 return true
             }
         })

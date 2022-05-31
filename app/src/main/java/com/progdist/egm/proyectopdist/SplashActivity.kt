@@ -2,6 +2,7 @@ package com.progdist.egm.proyectopdist
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -13,6 +14,7 @@ import com.progdist.egm.proyectopdist.data.network.MainApi
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.MainRepository
 import com.progdist.egm.proyectopdist.ui.base.ViewModelFactory
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 import com.progdist.egm.proyectopdist.ui.main.MainActivity
 import com.progdist.egm.proyectopdist.ui.main.MainViewModel
@@ -43,7 +45,11 @@ class SplashActivity : AppCompatActivity() {
 
         viewModel.validateEmployeeTokenResponse.observe(this, Observer {
             if(it is Resource.success){
-
+                val intent: Intent = Intent(this, EmployeeHomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("employeeId",it.value.employee)
+                this.startActivity(intent)
+                finish()
             } else{
 
             }

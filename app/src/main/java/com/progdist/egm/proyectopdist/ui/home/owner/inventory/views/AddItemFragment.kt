@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
@@ -29,6 +30,8 @@ import com.progdist.egm.proyectopdist.data.responses.inventory.Supplier
 import com.progdist.egm.proyectopdist.databinding.FragmentAddItemBinding
 import com.progdist.egm.proyectopdist.ui.CodeScannerAcitvity
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
+import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.AddItemViewModel
 import com.progdist.egm.proyectopdist.ui.showToast
 import kotlinx.coroutines.flow.first
@@ -39,7 +42,9 @@ class AddItemFragment :
 
     private var idCategorySelected: Int = -1
     private var idSupplierSelected: Int = -1
+    private lateinit var homeActivity: AppCompatActivity
     private var idUser: Int = -1
+    private var roleId: Int = -1
     private lateinit var aCategories: Array<Category>
     private lateinit var aSuppliers: Array<Supplier>
 
@@ -63,7 +68,7 @@ class AddItemFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        roleId = requireArguments().getInt("roleId",-1)
         val collapsingToolbarLayout =
             requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
         collapsingToolbarLayout.title = "Añadir producto"
@@ -75,7 +80,20 @@ class AddItemFragment :
             requireActivity().findViewById<View>(R.id.fabButton) as FloatingActionButton
         fab.visibility = View.GONE
 
-        idUser = activity?.intent?.getIntExtra("user", -1)!!
+        when(activity){
+            is HomeActivity ->{
+                homeActivity = requireActivity() as HomeActivity
+            }
+            is EmployeeHomeActivity ->{
+                homeActivity = requireActivity() as EmployeeHomeActivity
+            }
+        }
+
+        if(homeActivity is HomeActivity){
+            idUser = activity?.intent?.getIntExtra("user", -1)!!
+        }else if(homeActivity is EmployeeHomeActivity){
+            idUser = (homeActivity as EmployeeHomeActivity).userId!!
+        }
 
         viewModel.getCategories("id_user_category", idUser)
 
@@ -262,7 +280,7 @@ class AddItemFragment :
                 is Resource.success -> {
                     if (it.value.status == 200) {
                         binding.root.showToast("Se añadió el producto")
-                        val action = AddItemFragmentDirections.actionAddItemFragmentToItemsFragment()
+                        val action = AddItemFragmentDirections.actionAddItemFragmentToItemsFragment(roleId)
                         findNavController().navigate(action)
                     }
                 }

@@ -10,8 +10,8 @@ class EditItem {
                                 nameId: String,
                                 code: String,
                                 name: String,
-                                sale: Int,
-                                purchase: Int,
+                                sale: Float,
+                                purchase: Float,
                                 stock: Int,
                                 idCategory: Int,
                                 idSupplier: Int): Resource<Any> =

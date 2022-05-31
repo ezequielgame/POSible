@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.home.employee.EmployeeHomeActivity"
+            android:name=".ui.home.employee.view.EmployeeHomeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.auth.EmployeeAccountActivity"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -17,6 +18,7 @@ import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
 import com.progdist.egm.proyectopdist.data.responses.branches.Branch
 import com.progdist.egm.proyectopdist.databinding.FragmentInventoryBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.InventoryViewModel
 import kotlinx.coroutines.flow.first
@@ -24,12 +26,19 @@ import kotlinx.coroutines.runBlocking
 
 class InventoryFragment : BaseFragment<InventoryViewModel, FragmentInventoryBinding, InventoryRepository>() {
 
-    lateinit var homeActivity: HomeActivity
-    var selectedCategory: Branch? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeActivity = (requireActivity() as HomeActivity)
+        val selectedBranchId = runBlocking { userPreferences.idSelectedBranch.first() }
+
+        val homeActivity: AppCompatActivity
+        when(activity){
+            is HomeActivity->{
+                homeActivity = requireActivity() as HomeActivity
+            }
+            else->{
+                homeActivity = requireActivity() as EmployeeHomeActivity
+            }
+        }
         val collapsingToolbarLayout = requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
         collapsingToolbarLayout.title = "Inventario"
 
@@ -50,22 +59,6 @@ class InventoryFragment : BaseFragment<InventoryViewModel, FragmentInventoryBind
             }
         }
 
-        binding.btnItems.setOnClickListener{
-
-            val action =
-                InventoryFragmentDirections.actionInventoryFragmentToItemsFragment()
-            findNavController().navigate(action)
-
-        }
-
-        binding.btnCategories.setOnClickListener{
-
-            val action =
-                InventoryFragmentDirections.actionInventoryFragmentToCategoriesFragment()
-            findNavController().navigate(action)
-
-        }
-
         binding.btnSuppliers.setOnClickListener{
 
             val action = InventoryFragmentDirections.actionInventoryFragmentToSuppliersFragment()
@@ -73,45 +66,99 @@ class InventoryFragment : BaseFragment<InventoryViewModel, FragmentInventoryBind
 
         }
 
-        val selectedBranchId = runBlocking { userPreferences.idSelectedBranch.first() }
+        binding.btnItems.setOnClickListener{
+            val action: Any
+            if(homeActivity is HomeActivity){
+                action =
+                    InventoryFragmentDirections.actionInventoryFragmentToItemsFragment(1)
+                findNavController().navigate(action)
+            }else if(homeActivity is EmployeeHomeActivity){
+                action =
+                    InventoryFragmentDirections.actionInventoryFragmentToItemsFragment(homeActivity.employeeRoleId!!)
+                findNavController().navigate(action)
+            }
 
-        if(homeActivity.branches.isNotEmpty()){ //branches created
-            //Check for selected branch
-            if(homeActivity.selectedBranch != null){
-                binding.btnCategories.isEnabled = true
-                binding.btnItems.isEnabled = true
-                binding.btnSuppliers.isEnabled = true
-                if (selectedBranchId != null) {
-                    viewModel.getBranchInInventory("id_branch", selectedBranchId)
+
+        }
+
+        binding.btnCategories.setOnClickListener{
+
+            val action: Any
+            if(homeActivity is HomeActivity){
+                action =
+                    InventoryFragmentDirections.actionInventoryFragmentToCategoriesFragment(1)
+                findNavController().navigate(action)
+            }else if(homeActivity is EmployeeHomeActivity){
+                action =
+                    InventoryFragmentDirections.actionInventoryFragmentToCategoriesFragment(homeActivity.employeeRoleId!!)
+                findNavController().navigate(action)
+            }
+
+        }
+
+
+        if(homeActivity is HomeActivity){
+            if(homeActivity.branches.isNotEmpty()){ //branches created
+                //Check for selected branch
+                if(homeActivity.selectedBranch != null){
+                    binding.btnCategories.isEnabled = true
+                    binding.btnItems.isEnabled = true
+                    binding.btnSuppliers.isEnabled = true
+                    if (selectedBranchId != null) {
+                        viewModel.getBranchInInventory("id_branch", selectedBranchId)
+                    }
+                }else {
+                    binding.btnCategories.isEnabled = false
+                    binding.btnItems.isEnabled = false
+                    binding.btnSuppliers.isEnabled = false
+                    binding.tvWorkBranch.text = "Selecciona una sucursal"
+
+                    val builder = MaterialAlertDialogBuilder(requireContext())
+                    builder.apply {
+                        setTitle("Lugar de trabajo")
+                        setMessage("Debes seleccionar una sucursal")
+                        setPositiveButton("Seleccionar") { dialog, which ->
+                            homeActivity.drawerLayout.openDrawer(GravityCompat.START)
+                            val action =
+                                InventoryFragmentDirections.actionInventoryFragmentToBranchesFragment()
+                            findNavController().navigate(action)
+                        }
+                        setCancelable(false)
+                    }
+                    val dialog = builder.create()
+                    dialog.show()
                 }
-            }else {
+            }else{
+                //No branches created
                 binding.btnCategories.isEnabled = false
                 binding.btnItems.isEnabled = false
                 binding.btnSuppliers.isEnabled = false
-                binding.tvWorkBranch.text = "Selecciona una sucursal"
-
-                val builder = MaterialAlertDialogBuilder(requireContext())
-                builder.apply {
-                    setTitle("Lugar de trabajo")
-                    setMessage("Debes seleccionar una sucursal")
-                    setPositiveButton("Seleccionar") { dialog, which ->
-                        homeActivity.drawerLayout.openDrawer(GravityCompat.START)
-                        val action =
-                            InventoryFragmentDirections.actionInventoryFragmentToBranchesFragment()
-                        findNavController().navigate(action)
-                    }
-                    setCancelable(false)
-                }
-                val dialog = builder.create()
-                dialog.show()
+                binding.tvWorkBranch.text = "Crea una sucursal"
             }
-        }else{
-            //No branches created
-            binding.btnCategories.isEnabled = false
-            binding.btnItems.isEnabled = false
-            binding.btnSuppliers.isEnabled = false
-            binding.tvWorkBranch.text = "Crea una sucursal"
+        } else if(homeActivity is EmployeeHomeActivity){
+            if (selectedBranchId != null) {
+                setButtonsState(true)
+                viewModel.getBranchInInventory("id_branch", selectedBranchId)
+                when(homeActivity.employeeRoleId){
+                    1->{
+                    }
+                    2->{
+                        binding.btnSuppliers.visibility = View.GONE
+                    }
+                    3->{
+                        binding.btnSuppliers.visibility = View.GONE
+                    }
+                }
+            }
         }
+
+
+    }
+
+    private fun setButtonsState(state: Boolean){
+        binding.btnSuppliers.isEnabled = state
+        binding.btnItems.isEnabled = state
+        binding.btnCategories.isEnabled = state
     }
 
     override fun getViewModel(): Class<InventoryViewModel> = InventoryViewModel::class.java

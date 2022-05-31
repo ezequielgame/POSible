@@ -106,8 +106,8 @@ class InventoryRepository(
         nameId: String,
         code: String,
         name: String,
-        sale: Int,
-        purchase: Int,
+        sale: Float,
+        purchase: Float,
         stock: Int,
         idCategory: Int,
         idSupplier: Int
@@ -115,5 +115,10 @@ class InventoryRepository(
         api.editItem(id,nameId, code, name, sale, purchase, stock, idCategory, idSupplier)
     }
 
-
+    suspend fun deleteItem(
+        id: Int,
+        nameId: String
+    ) = safeApiCall {
+        api.deleteItem(id,nameId)
+    }
 }

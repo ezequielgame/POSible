@@ -91,11 +91,23 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
                 val item: Any
                 if(context == "sale"){
                     item = recyclerAdapter.getItem(position) as Sale
-                    val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(item.id_sale,context)
+                    val employeeName: String
+                    if(item.id_employee_sale != 1){
+                        employeeName = item.name_employee
+                    }else{
+                        employeeName = item.name_user
+                    }
+                    val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(item.id_sale,context,employeeName)
                     findNavController().navigate(action)
                 }else{
                     item = recyclerAdapter.getItem(position) as Purchase
-                    val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(item.id_purchase,context)
+                    val employeeName: String
+                    if(item.id_employee_purchase != 1){
+                        employeeName = item.name_employee
+                    }else{
+                        employeeName = item.name_user
+                    }
+                    val action = SalesListFragmentDirections.actionSalesListFragmentToSaleSummaryFragment(item.id_purchase,context,employeeName)
                     findNavController().navigate(action)
                 }
             }

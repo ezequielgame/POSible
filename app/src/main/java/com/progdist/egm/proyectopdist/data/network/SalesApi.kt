@@ -127,6 +127,12 @@ interface SalesApi : InventoryApi {
         @Field("stock_item") stock: Int
     ) : EditResponse
 
-
+    @FormUrlEncoded
+    @PUT("codes")
+    suspend fun editCode(
+        @Query("id") id: Int,
+        @Query("nameId") nameId: String,
+        @Field("code_code") code: String
+    ) : EditResponse
 
 }

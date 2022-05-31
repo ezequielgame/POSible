@@ -4,11 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -18,12 +20,10 @@ import com.progdist.egm.proyectopdist.R
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.network.SalesApi
 import com.progdist.egm.proyectopdist.data.repository.SalesRepository
-import com.progdist.egm.proyectopdist.data.responses.branches.Branch
 import com.progdist.egm.proyectopdist.databinding.FragmentSalesBinding
-import com.progdist.egm.proyectopdist.ui.CodeScannerAcitvity
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
-import com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.InventoryFragmentDirections
 import com.progdist.egm.proyectopdist.ui.home.owner.sales.viewmodel.SalesViewModel
 import com.progdist.egm.proyectopdist.ui.showToast
 import kotlinx.coroutines.flow.first
@@ -31,9 +31,7 @@ import kotlinx.coroutines.runBlocking
 
 class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRepository>() {
 
-
-    lateinit var homeActivity: HomeActivity
-    var selectedCategory: Branch? = null
+//    var selectedCategory: Branch? = null
 
     private val askCameraPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -45,8 +43,15 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        homeActivity = (requireActivity() as HomeActivity)
+        val homeActivity: AppCompatActivity
+        when(activity){
+            is HomeActivity->{
+                homeActivity = requireActivity() as HomeActivity
+            }
+            else->{
+                homeActivity = requireActivity() as EmployeeHomeActivity
+            }
+        }
 
         val collapsingToolbarLayout = requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
         collapsingToolbarLayout.title = "Caja"
@@ -57,20 +62,98 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
         val fab: FloatingActionButton = requireActivity().findViewById<View>(R.id.fabButton) as FloatingActionButton
         fab.visibility = View.GONE
 
-        val idUser = activity?.intent?.getIntExtra("user", -1)
+        var userId: Int = -1
+        if(homeActivity is HomeActivity){
+            userId = activity?.intent?.getIntExtra("user", -1)!!
+        }else if (homeActivity is EmployeeHomeActivity){
+            userId = homeActivity.userId!!
+        }
+
 
         val selectedBranchId = runBlocking { userPreferences.idSelectedBranch.first() }
+
+
+
+        if(homeActivity is HomeActivity){
+            if(homeActivity.branches.isNotEmpty()){ //branches created
+                //Check for selected branch
+                if(homeActivity.selectedBranch != null){
+                    setButtonsState(true)
+                    if (selectedBranchId != null) {
+                        viewModel.getBranch("id_branch", selectedBranchId)
+                    }
+                }else {
+                    setButtonsState(false)
+                    binding.tvWorkBranch.text = "Selecciona una sucursal"
+
+                    val builder = MaterialAlertDialogBuilder(requireContext())
+                    builder.apply {
+                        setTitle("Lugar de trabajo")
+                        setMessage("Debes seleccionar una sucursal")
+                        setPositiveButton("Seleccionar") { dialog, which ->
+                            homeActivity.drawerLayout.openDrawer(GravityCompat.START)
+                            val action =
+                                SalesFragmentDirections.actionSalesFragmentToBranchesFragment()
+                            findNavController().navigate(action)
+                        }
+                        setCancelable(false)
+                    }
+                    val dialog = builder.create()
+                    dialog.show()
+                }
+            }else{
+                //No branches created
+                setButtonsState(false)
+                binding.tvWorkBranch.text = "Crea una sucursal"
+            }
+        } else if(homeActivity is EmployeeHomeActivity){
+            if (selectedBranchId != null) {
+                setButtonsState(true)
+                viewModel.getBranch("id_branch", selectedBranchId)
+                when(homeActivity.employeeRoleId){
+                    1->{
+                    }
+                    2->{
+                        binding.btnListPurchases.visibility = View.GONE
+                        binding.btnListSales.visibility = View.GONE
+                    }
+                    3->{
+                        binding.btnListPurchases.visibility = View.GONE
+                        binding.btnListSales.visibility = View.GONE
+                        binding.btnNewPurchase.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+
 
         viewModel.getBranchesListResponse.observe(viewLifecycleOwner){
             when(it){
                 is Resource.success->{
+                    Log.i("DEBUG","aqui")
                     binding.tvWorkBranch.text = "Trabajando en ${it.value.result[0].name_branch}"
                 }
                 is Resource.failure->{
-
+                    binding.root.showToast("Error")
                 }
             }
         }
+
+        binding.btnListSales.setOnClickListener {
+
+            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("sale")
+            findNavController().navigate(action)
+
+        }
+
+        binding.btnListPurchases.setOnClickListener {
+
+            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("purchase")
+            findNavController().navigate(action)
+
+        }
+
 
         binding.btnNewPurchase.setOnClickListener {
 
@@ -79,7 +162,10 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
 
                 val intent = Intent(requireActivity(), NewSaleActivity::class.java)
                 intent.putExtra("branchId",selectedBranchId)
-                intent.putExtra("userId",idUser)
+                intent.putExtra("userId",userId)
+                if(homeActivity is EmployeeHomeActivity){
+                    intent.putExtra("employeeId",homeActivity.employeeId)
+                }
                 intent.putExtra("context","purchase")
                 requireActivity().startActivity(intent)
 
@@ -97,7 +183,10 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
 
                 val intent = Intent(requireActivity(), NewSaleActivity::class.java)
                 intent.putExtra("branchId",selectedBranchId)
-                intent.putExtra("userId",idUser)
+                intent.putExtra("userId",userId)
+                if(homeActivity is EmployeeHomeActivity){
+                    intent.putExtra("employeeId",homeActivity.employeeId)
+                }
                 intent.putExtra("context","sale")
                 requireActivity().startActivity(intent)
 
@@ -107,53 +196,6 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
             }
 
         }
-
-        binding.btnListSales.setOnClickListener {
-
-            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("sale")
-            findNavController().navigate(action)
-
-        }
-
-        binding.btnListPurchases.setOnClickListener {
-
-            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("purchase")
-            findNavController().navigate(action)
-
-        }
-
-        if(homeActivity.branches.isNotEmpty()){ //branches created
-            //Check for selected branch
-            if(homeActivity.selectedBranch != null){
-                setButtonsState(true)
-                if (selectedBranchId != null) {
-                    viewModel.getBranch("id_branch", selectedBranchId)
-                }
-            }else {
-                setButtonsState(false)
-                binding.tvWorkBranch.text = "Selecciona una sucursal"
-
-                val builder = MaterialAlertDialogBuilder(requireContext())
-                builder.apply {
-                    setTitle("Lugar de trabajo")
-                    setMessage("Debes seleccionar una sucursal")
-                    setPositiveButton("Seleccionar") { dialog, which ->
-                        homeActivity.drawerLayout.openDrawer(GravityCompat.START)
-                        val action =
-                            SalesFragmentDirections.actionSalesFragmentToBranchesFragment()
-                        findNavController().navigate(action)
-                    }
-                    setCancelable(false)
-                }
-                val dialog = builder.create()
-                dialog.show()
-            }
-        }else{
-            //No branches created
-            setButtonsState(false)
-            binding.tvWorkBranch.text = "Crea una sucursal"
-        }
-
 
     }
 

@@ -113,7 +113,7 @@ class SuppliersFragment : BaseFragment<SuppliersViewModel,FragmentSuppliersBindi
                                 val deleteBuilder = MaterialAlertDialogBuilder(requireContext())
                                 deleteBuilder.apply {
                                     setTitle("Eliminar")
-                                    setMessage("Se eliminará el proveedor y no se podrá recuperar")
+                                    setMessage("Se eliminará el proveedor, y TODOS sus productos relaciondos y no se podrá recuperar")
                                     setPositiveButton("Eliminar") { view, _ ->
                                         val idDelete = recyclerAdapter.getSupplier(position).id_supplier
                                         viewModel.deleteSupplier(idDelete, "id_supplier")

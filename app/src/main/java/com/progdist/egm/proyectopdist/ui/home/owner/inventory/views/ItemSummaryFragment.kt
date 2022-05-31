@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -22,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.progdist.egm.proyectopdist.R
+import com.progdist.egm.proyectopdist.data.network.HomeApi
 import com.progdist.egm.proyectopdist.data.network.InventoryApi
 import com.progdist.egm.proyectopdist.data.network.Resource
 import com.progdist.egm.proyectopdist.data.repository.InventoryRepository
@@ -30,6 +32,8 @@ import com.progdist.egm.proyectopdist.data.responses.inventory.Supplier
 import com.progdist.egm.proyectopdist.databinding.FragmentItemSummaryBinding
 import com.progdist.egm.proyectopdist.ui.CodeScannerAcitvity
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
+import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.viewmodels.ItemSummaryViewModel
 import com.progdist.egm.proyectopdist.ui.showToast
 import kotlinx.coroutines.flow.first
@@ -40,8 +44,10 @@ class ItemSummaryFragment : BaseFragment<ItemSummaryViewModel,FragmentItemSummar
     private var idCategorySelected: Int = -1
     private var idSupplierSelected: Int = -1
     private var idUser: Int = -1
+    private var roleId: Int = -1
     private lateinit var aCategories: Array<Category>
     private lateinit var aSuppliers: Array<Supplier>
+    private lateinit var homeActivity: AppCompatActivity
 
     private val askCameraPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -62,8 +68,22 @@ class ItemSummaryFragment : BaseFragment<ItemSummaryViewModel,FragmentItemSummar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        roleId = requireArguments().getInt("roleId")
+        when(activity){
+            is HomeActivity->{
+                homeActivity = requireActivity() as HomeActivity
+            }
+            is EmployeeHomeActivity->{
+                homeActivity = requireActivity() as EmployeeHomeActivity
+            }
+        }
 
-        idUser = activity?.intent?.getIntExtra("user", -1)!!
+        if(homeActivity is HomeActivity){
+            idUser = activity?.intent?.getIntExtra("user", -1)!!
+        }else if(homeActivity is EmployeeHomeActivity){
+            idUser = (homeActivity as EmployeeHomeActivity).userId!!
+        }
+
 
         val collapsingToolbarLayout =
             requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
@@ -74,8 +94,13 @@ class ItemSummaryFragment : BaseFragment<ItemSummaryViewModel,FragmentItemSummar
 
         val fab: FloatingActionButton =
             requireActivity().findViewById<View>(R.id.fabButton) as FloatingActionButton
-        fab.visibility = View.VISIBLE
         fab.setImageResource(R.drawable.ic_edit)
+        if(roleId!=3){
+            fab.visibility = View.VISIBLE
+        }else{
+            fab.visibility = View.GONE
+        }
+
 
         fab.setOnClickListener {
             setTextFieldsState(true)
@@ -295,8 +320,8 @@ class ItemSummaryFragment : BaseFragment<ItemSummaryViewModel,FragmentItemSummar
     private fun saveInfo(){
         val name = binding.tfItemName.text.toString().trim()
         val code = binding.tfItemCode.text.toString().trim()
-        val sale = binding.tfItemSalePrice.text.toString().trim().toFloat().toInt()
-        val purchase = binding.tfItemPurchasePrice.text.toString().trim().toFloat().toInt()
+        val sale = binding.tfItemSalePrice.text.toString().trim().toFloat()
+        val purchase = binding.tfItemPurchasePrice.text.toString().trim().toFloat()
         val stock = binding.tfItemStock.text.toString().trim().toFloat().toInt()
 
         viewModel.editItem(

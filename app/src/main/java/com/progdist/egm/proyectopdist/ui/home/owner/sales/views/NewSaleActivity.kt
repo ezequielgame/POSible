@@ -135,7 +135,7 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
                 val branchId = intent.getIntExtra("branchId",-1)
                 val customerId = 1
                 val userId = intent.getIntExtra("userId",-1)
-                val employeeId = -1
+                val employeeId = intent.getIntExtra("employeeId",-1)
                 var total = 0f
                 val paymentTypeId = 1
                 itemsList.forEach {
@@ -148,6 +148,9 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
                 intent.putParcelableArrayListExtra("itemsList",itemsInfo)
                 intent.putExtra("context",context)
                 intent.putExtra("userId",userId)
+                if( employeeId != -1 ){
+                    intent.putExtra("employeeId", employeeId)
+                }
                 startActivity(intent)
             }
         }

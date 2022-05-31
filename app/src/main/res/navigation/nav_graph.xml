@@ -102,6 +102,9 @@
             android:id="@+id/action_categoriesFragment_to_categorySummaryFragment"
             app:destination="@id/categorySummaryFragment"
             app:launchSingleTop="false" />
+        <argument
+            android:name="roleId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/itemsFragment"
@@ -113,10 +116,20 @@
             app:destination="@id/inventoryFragment" />
         <action
             android:id="@+id/action_itemsFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            app:destination="@id/addItemFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_itemsFragment_to_itemSummaryFragment"
             app:destination="@id/itemSummaryFragment" />
+        <argument
+            android:name="roleId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_itemsFragment_self"
+            app:destination="@id/itemsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/itemsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/suppliersFragment"
@@ -138,7 +151,9 @@
         <action
             android:id="@+id/action_addCategoryFragment_to_categoriesFragment"
             app:destination="@id/categoriesFragment"
-            app:popUpTo="@id/categoriesFragment" />
+            app:launchSingleTop="true"
+            app:popUpTo="@id/categoriesFragment"
+            app:popUpToInclusive="true" />
         <argument android:name="branchId"
             app:argType="integer" />
     </fragment>
@@ -153,6 +168,9 @@
         <argument
             android:name="categoryId"
             app:argType="integer" />
+        <argument
+            android:name="roleId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
@@ -162,7 +180,9 @@
         <action
             android:id="@+id/action_addItemFragment_to_itemsFragment"
             app:destination="@id/itemsFragment"
-            app:popUpTo="@id/itemsFragment" />
+            app:launchSingleTop="true"
+            app:popUpTo="@id/itemsFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="branchId"
             app:argType="integer" />
@@ -170,6 +190,9 @@
             android:id="@+id/action_addItemFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment"
             app:popUpTo="@id/inventoryFragment" />
+        <argument
+            android:name="roleId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/itemSummaryFragment"
@@ -180,6 +203,9 @@
             android:id="@+id/action_itemSummaryFragment_to_itemsFragment"
             app:destination="@id/itemsFragment" />
         <argument android:name="itemId"
+            app:argType="integer" />
+        <argument
+            android:name="roleId"
             app:argType="integer" />
     </fragment>
     <fragment
@@ -193,7 +219,8 @@
         <action
             android:id="@+id/action_addSupplierFragment_to_suppliersFragment"
             app:destination="@id/suppliersFragment"
-            app:popUpTo="@id/suppliersFragment" />
+            app:popUpTo="@id/suppliersFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/supplierSummaryFragment"
@@ -228,12 +255,18 @@
         tools:layout="@layout/fragment_sale_summary" >
         <action
             android:id="@+id/action_saleSummaryFragment_to_salesListFragment"
-            app:destination="@id/salesListFragment" />
+            app:destination="@id/salesListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/salesListFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="saleId"
             app:argType="integer" />
         <argument
             android:name="context"
+            app:argType="string" />
+        <argument
+            android:name="employeeName"
             app:argType="string" />
     </fragment>
     <fragment

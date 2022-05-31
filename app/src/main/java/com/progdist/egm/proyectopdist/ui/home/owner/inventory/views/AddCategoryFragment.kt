@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -25,6 +26,7 @@ class AddCategoryFragment : BaseFragment<AddCategoryViewModel, FragmentAddCatego
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val roleId = requireArguments().getInt("roleId",-1)
 
         val collapsingToolbarLayout = requireActivity().findViewById<View>(R.id.collapsingToolbar) as CollapsingToolbarLayout
         collapsingToolbarLayout.title = "Añadir categoría"
@@ -51,6 +53,8 @@ class AddCategoryFragment : BaseFragment<AddCategoryViewModel, FragmentAddCatego
             when(it){
                 is Resource.success -> {
                     Toast.makeText(requireContext(), "Se añadió la categoría", Toast.LENGTH_SHORT).show()
+                    val action = AddCategoryFragmentDirections.actionAddCategoryFragmentToCategoriesFragment(1)
+                    findNavController().navigate(action)
                 }
                 is Resource.failure -> {
 

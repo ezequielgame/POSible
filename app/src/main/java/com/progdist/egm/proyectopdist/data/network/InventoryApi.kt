@@ -117,13 +117,18 @@ interface InventoryApi {
         @Query("nameId") nameId: String,
         @Field("code_item") code: String,
         @Field("name_item") name: String,
-        @Field("sale_price_item") sale: Int,
-        @Field("purchase_price_item") purchase: Int,
+        @Field("sale_price_item") sale: Float,
+        @Field("purchase_price_item") purchase: Float,
         @Field("stock_item") stock: Int,
         @Field("id_category_item") idCategory: Int,
         @Field("id_supplier_item") idSupplier: Int
 
     ) : EditResponse
 
+    @DELETE("items")
+    suspend fun deleteItem(
+        @Query("id") id: Int,
+        @Query("nameId") nameId: String
+    ) : DeleteResponse
 
 }

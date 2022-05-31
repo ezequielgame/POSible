@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -56,6 +57,8 @@ class AddSupplierFragment : BaseFragment<AddSupplierViewModel,FragmentAddSupplie
             when(it){
                 is Resource.success -> {
                     Toast.makeText(requireContext(), "Se añadió el proveedor", Toast.LENGTH_SHORT).show()
+                    val action = AddSupplierFragmentDirections.actionAddSupplierFragmentToSuppliersFragment()
+                    findNavController().navigate(action)
                 }
                 is Resource.failure -> {
 
