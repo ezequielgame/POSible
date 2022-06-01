@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import com.progdist.egm.proyectopdist.data.responses.sales.Purchase
 import com.progdist.egm.proyectopdist.data.responses.sales.Sale
 import com.progdist.egm.proyectopdist.databinding.FragmentSalesListBinding
 import com.progdist.egm.proyectopdist.ui.base.BaseFragment
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.inventory.views.ItemsFragmentDirections
 import com.progdist.egm.proyectopdist.ui.home.owner.sales.viewmodel.SalesListViewModel
@@ -36,11 +38,10 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
 
     var topDate: String = ""
     var lowDate: String = ""
-    lateinit var homeActivity: HomeActivity
+    lateinit var homeActivity: AppCompatActivity
     lateinit var recyclerAdapter: SalesListItemsListAdapter
     private var selectedBranchId: Int = -1
     lateinit var context: String
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +71,14 @@ class SalesListFragment : BaseFragment<SalesListViewModel,FragmentSalesListBindi
         }
         initRecyclerView()
 
-        homeActivity = (requireActivity() as HomeActivity)
+        when(activity){
+            is HomeActivity->{
+                homeActivity = (requireActivity() as HomeActivity)
+            }
+            is EmployeeHomeActivity->{
+                homeActivity = (requireActivity() as EmployeeHomeActivity)
+            }
+        }
 
         val heroIcon = requireActivity().findViewById<View>(R.id.ivHeroIcon) as ImageView
         heroIcon.setImageResource(R.drawable.ic_hero_sales)

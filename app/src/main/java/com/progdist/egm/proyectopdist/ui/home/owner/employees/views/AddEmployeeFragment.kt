@@ -202,7 +202,9 @@ class AddEmployeeFragment : BaseFragment<AddEmployeeViewModel,FragmentAddEmploye
 
             val rolesNames: MutableList<String> = ArrayList()
             aRoles.forEach {
-                rolesNames += it.name_role + ": " + it.description_role
+                if(it.id_role != 1){
+                    rolesNames += it.name_role + ": " + it.description_role
+                }
             }
             val rolesOptions = rolesNames.toTypedArray()
 
