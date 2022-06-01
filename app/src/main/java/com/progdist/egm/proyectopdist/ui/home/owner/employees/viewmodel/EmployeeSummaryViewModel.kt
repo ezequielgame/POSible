@@ -50,6 +50,21 @@ class EmployeeSummaryViewModel(
         _editEmployeeResponse.value = (editEmployeeUseCase(repository, id, nameId, idBranchEmployee, code, name, mail, phone, idRole) as Resource<EditResponse>)
     }
 
+    fun editEmployee(
+        id: Int,
+        nameId: String,
+        idBranchEmployee: Int,
+        code: String,
+        name: String,
+        mail: String,
+        password: String,
+        phone: String,
+        idRole: Int
+    ) = viewModelScope.launch {
+        val editEmployeeUseCase = EditEmployee()
+        _editEmployeeResponse.value = (editEmployeeUseCase(repository, id, nameId, idBranchEmployee, code, name, mail,password, phone, idRole) as Resource<EditResponse>)
+    }
+
 
 
     private val _getBranchResponse: MutableLiveData<Resource<GetBranchResponse>> = MutableLiveData()

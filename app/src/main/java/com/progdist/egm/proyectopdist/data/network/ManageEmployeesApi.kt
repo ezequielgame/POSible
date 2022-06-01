@@ -48,6 +48,20 @@ interface ManageEmployeesApi {
         @Field("id_role_employee") idRole: Int
     ) : EditResponse
 
+    @FormUrlEncoded
+    @PUT("employees")
+    suspend fun editEmployeePass(
+        @Query("id") id: Int,
+        @Query("nameId") nameId: String,
+        @Field("id_branch_employee") idBranchEmployee: Int,
+        @Field("code_employee") code: String,
+        @Field("name_employee") name: String,
+        @Field("email_employee") email: String,
+        @Field("password_employee") password: String,
+        @Field("phone_number_employee") phone: String,
+        @Field("id_role_employee") idRole: Int
+    ) : EditResponse
+
     @DELETE("employees")
     suspend fun deleteEmployee(
         @Query("id") id: Int,

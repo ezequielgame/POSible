@@ -44,7 +44,9 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                     startActivity(intent)
                 }
                 is Resource.failure -> {
-                    Toast.makeText(requireContext(), "Login failure", Toast.LENGTH_LONG).show()
+                    if(it.errorCode == 401){
+                        Toast.makeText(requireContext(), "Contraseña o correo incorrectos", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         })
@@ -59,7 +61,9 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                     startActivity(intent)
                 }
                 is Resource.failure -> {
-                    Toast.makeText(requireContext(), "Login failure", Toast.LENGTH_LONG).show()
+                    if(it.errorCode == 401){
+                        Toast.makeText(requireContext(), "Contraseña o correo incorrectos", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

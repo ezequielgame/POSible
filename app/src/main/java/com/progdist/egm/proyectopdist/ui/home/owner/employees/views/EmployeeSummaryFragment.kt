@@ -68,8 +68,8 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tilEmployeePassword.visibility = View.GONE
-        binding.tilEmployeeConfirmPassword.visibility = View.GONE
+//        binding.tilEmployeePassword.visibility = View.GONE
+//        binding.tilEmployeeConfirmPassword.visibility = View.GONE
         employeeId = requireArguments().getInt("employeeId",-1)
         userId = requireArguments().getInt("userId",-1)
 
@@ -111,6 +111,8 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
             setTextInputLayoutsHelperText("Requerido*")
             binding.tilEmployeeName.visibility = View.VISIBLE
             binding.btnSave.visibility = View.VISIBLE
+            binding.tilEmployeePassword.visibility = View.VISIBLE
+            binding.tilEmployeeConfirmPassword.visibility = View.VISIBLE
         }
 
         setTextFieldsState(false)
@@ -241,7 +243,9 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
 
             val rolesNames: MutableList<String> = ArrayList()
             aRoles.forEach {
-                rolesNames += it.name_role + ": " + it.description_role
+                if(it.id_role != 1){
+                    rolesNames += it.name_role + ": " + it.description_role
+                }
             }
             val rolesOptions = rolesNames.toTypedArray()
 
@@ -259,8 +263,8 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
                 val position = (dialog as AlertDialog).listView.checkedItemPosition
                 // if selected, then get item text
                 if (position != -1) {
-                    idRoleSelected = aRoles[position].id_role
-                    binding.actvEmployeeRole.setText(aRoles[position].name_role)
+                    idRoleSelected = aRoles[position+1].id_role
+                    binding.actvEmployeeRole.setText(aRoles[position+1].name_role)
                 } else {
                     idRoleSelected = -1
                     binding.actvEmployeeRole.setText("Rol")
@@ -278,13 +282,17 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
         binding.btnSave.setOnClickListener{
 
             if(validForm()){
-                saveInfo()
-                fab.visibility = View.VISIBLE
-                setTextFieldsState(false)
-                setTextInputLayoutsHelperText("")
-                binding.tilEmployeeName.visibility = View.GONE
-                binding.btnSave.visibility = View.GONE
-                viewModel.getEmployees("id_employee",employeeId.toString())
+                if(saveInfo()){
+                    fab.visibility = View.VISIBLE
+                    setTextFieldsState(false)
+                    setTextInputLayoutsHelperText("")
+                    binding.tilEmployeeName.visibility = View.GONE
+                    binding.btnSave.visibility = View.GONE
+                    binding.tilEmployeePassword.visibility = View.GONE
+                    binding.tilEmployeeConfirmPassword.visibility = View.GONE
+                    viewModel.getEmployees("id_employee",employeeId.toString())
+                }
+
             }
 
         }
@@ -305,12 +313,39 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
 
     }
 
-    private fun saveInfo(){
+    private fun saveInfo(): Boolean{
         val name = binding.tfEmployeeName.text.toString().trim()
         val code = binding.tfEmployeeCode.text.toString().trim()
         val mail = binding.tfEmployeeMail.text.toString().trim()
         val password = binding.tfEmployeePassword.text.toString().trim()
+        val cpassword = binding.tfEmployeeConfirmPassword.text.toString().trim()
         val phone = binding.tfEmployeePhoneNumber.text.toString().trim()
+
+        if(password != "" || cpassword != ""){
+            if(password == cpassword){
+                if(!validPassword(password)){
+                    Snackbar.make(binding.root,getString(R.string.password_format_error), Snackbar.LENGTH_SHORT).show()
+                }else{
+                    viewModel.editEmployee(
+                        employeeId,
+                        "id_employee",
+                        idBranchSelected,
+                        code,
+                        name,
+                        mail,
+                        password,
+                        phone,
+                        idRoleSelected
+                    )
+                    binding.root.showToast("Se guardó la información")
+                    return true
+                }
+                return false
+            }else{
+                Snackbar.make(binding.root,getString(R.string.password_mismatch_error), Snackbar.LENGTH_SHORT).show()
+                return false
+            }
+        }
 
         viewModel.editEmployee(
             employeeId,
@@ -323,6 +358,7 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
             idRoleSelected
         )
         Toast.makeText(requireContext(), "Se guardó la información", Toast.LENGTH_SHORT).show()
+        return true
     }
 
     private fun setTextFieldsState(state: Boolean){
@@ -341,8 +377,6 @@ class EmployeeSummaryFragment : BaseFragment<EmployeeSummaryViewModel,FragmentEm
         binding.tilEmployeeName.helperText = text
         binding.tilEmployeeCode.helperText = text
         binding.tilEmployeeMail.helperText = text
-        binding.tilEmployeePassword.helperText = text
-        binding.tilEmployeeConfirmPassword.helperText = text
         binding.tilEmployeePhoneNumber.helperText = text
         binding.tilEmployeeBranch.helperText = text
         binding.tilEmployeeRole.helperText = text

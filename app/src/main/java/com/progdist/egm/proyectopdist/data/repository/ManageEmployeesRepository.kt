@@ -43,6 +43,20 @@ class ManageEmployeesRepository(
         api.editEmployee(id, nameId, idBranchEmployee, code, name, mail, phone, idRole)
     }
 
+    suspend fun editEmployeePass(
+        id: Int,
+        nameId: String,
+        idBranchEmployee: Int,
+        code: String,
+        name: String,
+        mail: String,
+        password: String,
+        phone: String,
+        idRole: Int
+    ) = safeApiCall {
+        api.editEmployeePass(id, nameId, idBranchEmployee, code, name, mail,password, phone, idRole)
+    }
+
     suspend fun getBranch(
         where: String,
         id_branch: Int

@@ -222,8 +222,8 @@ class AddEmployeeFragment : BaseFragment<AddEmployeeViewModel,FragmentAddEmploye
                 val position = (dialog as AlertDialog).listView.checkedItemPosition
                 // if selected, then get item text
                 if (position != -1) {
-                    idRoleSelected = aRoles[position].id_role
-                    binding.actvEmployeeRole.setText(aRoles[position].name_role)
+                    idRoleSelected = aRoles[position+1].id_role
+                    binding.actvEmployeeRole.setText(aRoles[position+1].name_role)
                 } else {
                     idRoleSelected = -1
                     binding.actvEmployeeRole.setText("Rol")

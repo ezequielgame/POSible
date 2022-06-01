@@ -17,4 +17,16 @@ class EditEmployee {
                                 idRole: Int): Resource<Any> =
         repository.editEmployee(id, nameId, idBranchEmployee, code, name, mail, phone, idRole)
 
+    suspend operator fun invoke(repository: ManageEmployeesRepository,
+                                id: Int,
+                                nameId: String,
+                                idBranchEmployee: Int,
+                                code: String,
+                                name: String,
+                                mail: String,
+                                password: String,
+                                phone: String,
+                                idRole: Int): Resource<Any> =
+        repository.editEmployeePass(id, nameId, idBranchEmployee, code, name, mail, password, phone, idRole)
+
 }
