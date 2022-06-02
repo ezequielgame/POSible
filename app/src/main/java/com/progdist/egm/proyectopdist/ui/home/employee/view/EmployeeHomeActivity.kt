@@ -25,6 +25,7 @@ import com.progdist.egm.proyectopdist.data.responses.branches.Branch
 import com.progdist.egm.proyectopdist.data.responses.branches.ExtendedBranch
 import com.progdist.egm.proyectopdist.databinding.ActivityEmployeeHomeBinding
 import com.progdist.egm.proyectopdist.databinding.ActivityHomeBinding
+import com.progdist.egm.proyectopdist.ui.CreditsActivity
 import com.progdist.egm.proyectopdist.ui.base.BaseActivity
 import com.progdist.egm.proyectopdist.ui.home.owner.HomeViewModel
 import com.progdist.egm.proyectopdist.ui.showToast
@@ -115,6 +116,10 @@ class EmployeeHomeActivity : BaseActivity<HomeViewModel,ActivityEmployeeHomeBind
                         .setCancelable(false)
                         .create()
                     dialog.show()
+                }
+                R.id.nav_drawer_about->{
+                    val intent = Intent(this, CreditsActivity::class.java)
+                    this.startActivity(intent)
                 }
             }
             true

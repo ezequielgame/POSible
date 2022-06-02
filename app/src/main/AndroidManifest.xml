@@ -20,6 +20,9 @@
         android:theme="@style/MyTheme.DayNight"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.CreditsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.owner.sales.views.CheckoutActivity"
             android:exported="false" />
         <activity

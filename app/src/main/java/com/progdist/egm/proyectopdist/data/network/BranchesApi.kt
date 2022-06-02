@@ -24,7 +24,7 @@ interface BranchesApi {
         @Field("name_branch") name: String,
         @Field("id_location_branch") id_location: String,
         @Field("phone_number_branch") phone: String,
-        @Field("description_branch") description: String,
+        @Field("description_branch") description: String
     ) : AddResponse
 
     @GET("branches")

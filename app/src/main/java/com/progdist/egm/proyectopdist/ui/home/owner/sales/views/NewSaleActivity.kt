@@ -148,6 +148,7 @@ class NewSaleActivity : BaseActivity<NewSaleViewModel,ActivityNewSaleBinding,Sal
                 intent.putParcelableArrayListExtra("itemsList",itemsInfo)
                 intent.putExtra("context",context)
                 intent.putExtra("userId",userId)
+                intent.putExtra("branchId",branchId)
                 if( employeeId != -1 ){
                     intent.putExtra("employeeId", employeeId)
                 }

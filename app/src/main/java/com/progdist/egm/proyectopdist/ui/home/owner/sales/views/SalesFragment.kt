@@ -33,17 +33,28 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
 
 //    var selectedCategory: Branch? = null
 
+    var selectedBranchId: Int? = -1
+    var userId: Int = -1
+    lateinit var homeActivity: AppCompatActivity
+    lateinit var context: String
+
     private val askCameraPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if(it){
                 val intent = Intent(requireActivity(), NewSaleActivity::class.java)
+                intent.putExtra("branchId",selectedBranchId)
+                intent.putExtra("userId",userId)
+                if(homeActivity is EmployeeHomeActivity){
+                    intent.putExtra("employeeId", (homeActivity as EmployeeHomeActivity).employeeId)
+                }
+                intent.putExtra("context",context)
                 requireActivity().startActivity(intent)
             }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeActivity: AppCompatActivity
+
         when(activity){
             is HomeActivity->{
                 homeActivity = requireActivity() as HomeActivity
@@ -62,25 +73,24 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
         val fab: FloatingActionButton = requireActivity().findViewById<View>(R.id.fabButton) as FloatingActionButton
         fab.visibility = View.GONE
 
-        var userId: Int = -1
+
         if(homeActivity is HomeActivity){
             userId = activity?.intent?.getIntExtra("user", -1)!!
         }else if (homeActivity is EmployeeHomeActivity){
-            userId = homeActivity.userId!!
+            userId = (homeActivity as EmployeeHomeActivity).userId!!
         }
 
-
-        val selectedBranchId = runBlocking { userPreferences.idSelectedBranch.first() }
+        selectedBranchId = runBlocking { userPreferences.idSelectedBranch.first() }
 
 
 
         if(homeActivity is HomeActivity){
-            if(homeActivity.branches.isNotEmpty()){ //branches created
+            if((homeActivity as HomeActivity).branches.isNotEmpty()){ //branches created
                 //Check for selected branch
-                if(homeActivity.selectedBranch != null){
+                if((homeActivity as HomeActivity).selectedBranch != null){
                     setButtonsState(true)
                     if (selectedBranchId != null) {
-                        viewModel.getBranch("id_branch", selectedBranchId)
+                        viewModel.getBranch("id_branch", selectedBranchId!!)
                     }
                 }else {
                     setButtonsState(false)
@@ -91,7 +101,7 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
                         setTitle("Lugar de trabajo")
                         setMessage("Debes seleccionar una sucursal")
                         setPositiveButton("Seleccionar") { dialog, which ->
-                            homeActivity.drawerLayout.openDrawer(GravityCompat.START)
+                            (homeActivity as HomeActivity).drawerLayout.openDrawer(GravityCompat.START)
                             val action =
                                 SalesFragmentDirections.actionSalesFragmentToBranchesFragment()
                             findNavController().navigate(action)
@@ -109,8 +119,8 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
         } else if(homeActivity is EmployeeHomeActivity){
             if (selectedBranchId != null) {
                 setButtonsState(true)
-                viewModel.getBranch("id_branch", selectedBranchId)
-                when(homeActivity.employeeRoleId){
+                viewModel.getBranch("id_branch", selectedBranchId!!)
+                when((homeActivity as EmployeeHomeActivity).employeeRoleId){
                     1->{
                     }
                     2->{
@@ -141,22 +151,23 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
         }
 
         binding.btnListSales.setOnClickListener {
-
-            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("sale")
+            context = "sale"
+            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment(context)
             findNavController().navigate(action)
 
         }
 
         binding.btnListPurchases.setOnClickListener {
 
-            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment("purchase")
+            context = "purchase"
+            val action = SalesFragmentDirections.actionSalesFragmentToSalesListFragment(context)
             findNavController().navigate(action)
 
         }
 
 
         binding.btnNewPurchase.setOnClickListener {
-
+            context = "purchase"
             val permission = requireContext().checkCallingOrSelfPermission(android.Manifest.permission.CAMERA)
             if(permission == PackageManager.PERMISSION_GRANTED){
 
@@ -164,9 +175,9 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
                 intent.putExtra("branchId",selectedBranchId)
                 intent.putExtra("userId",userId)
                 if(homeActivity is EmployeeHomeActivity){
-                    intent.putExtra("employeeId",homeActivity.employeeId)
+                    intent.putExtra("employeeId", (homeActivity as EmployeeHomeActivity).employeeId)
                 }
-                intent.putExtra("context","purchase")
+                intent.putExtra("context",context)
                 requireActivity().startActivity(intent)
 
             } else {
@@ -177,7 +188,7 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
         }
 
         binding.btnNewSale.setOnClickListener {
-
+            context = "sale"
             val permission = requireContext().checkCallingOrSelfPermission(android.Manifest.permission.CAMERA)
             if(permission == PackageManager.PERMISSION_GRANTED){
 
@@ -185,9 +196,9 @@ class SalesFragment : BaseFragment<SalesViewModel, FragmentSalesBinding, SalesRe
                 intent.putExtra("branchId",selectedBranchId)
                 intent.putExtra("userId",userId)
                 if(homeActivity is EmployeeHomeActivity){
-                    intent.putExtra("employeeId",homeActivity.employeeId)
+                    intent.putExtra("employeeId", (homeActivity as EmployeeHomeActivity).employeeId)
                 }
-                intent.putExtra("context","sale")
+                intent.putExtra("context",context)
                 requireActivity().startActivity(intent)
 
             } else {

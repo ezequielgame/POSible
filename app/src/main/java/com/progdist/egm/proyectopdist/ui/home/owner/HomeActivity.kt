@@ -1,11 +1,14 @@
 package com.progdist.egm.proyectopdist.ui.home.owner
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
@@ -25,7 +28,10 @@ import com.progdist.egm.proyectopdist.data.responses.branches.Branch
 import com.progdist.egm.proyectopdist.data.responses.branches.ExtendedBranch
 import com.progdist.egm.proyectopdist.databinding.ActivityHomeBinding
 import com.progdist.egm.proyectopdist.ui.CodeScannerAcitvity
+import com.progdist.egm.proyectopdist.ui.CreditsActivity
 import com.progdist.egm.proyectopdist.ui.base.BaseActivity
+import com.progdist.egm.proyectopdist.ui.home.employee.view.EmployeeHomeActivity
+import com.progdist.egm.proyectopdist.ui.home.owner.sales.views.NewSaleActivity
 import com.progdist.egm.proyectopdist.ui.showToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -47,6 +53,20 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
     lateinit var headerBranch: TextView
     lateinit var headeImg: ImageView
     var selectedBranchId: Int? = -1
+
+    private val askCameraPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if(it){
+                val intent = Intent(this, CodeScannerAcitvity::class.java)
+//                        intent.putExtra("branchId",selectedBranchId)
+                intent.putExtra("userId",user)
+                intent.putExtra("tool",true)
+                //employee add employeeId
+//                        intent.putExtra("context","purchase")
+                this.startActivity(intent)
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,18 +133,47 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
         toggle.syncState()
 
 
+        val bottomNav = binding.bottomNavigation
+        navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)!!
+            .findNavController()
+        bottomNav.setupWithNavController(navController)
+
+        // always show selected Bottom Navigation item as selected (return true)
+        bottomNav.setOnItemSelectedListener { item ->
+            // In order to get the expected behavior, you have to call default Navigation method manually
+            if(item.itemId != R.id.branchesFragment){
+                navController.clearBackStack(item.itemId)
+            }
+            NavigationUI.onNavDestinationSelected(item, navController)
+            return@setOnItemSelectedListener true
+        }
+
+
         navDrawer.setNavigationItemSelectedListener {
 
             when (it.itemId) {
                 R.id.nav_drawer_codescanner->{
-                    val intent = Intent(this,CodeScannerAcitvity::class.java)
-                    intent.putExtra("tool",true)
-                    intent.putExtra("userId",user)
-                    this.startActivity(intent)
+
+                    val permission = this.checkCallingOrSelfPermission(android.Manifest.permission.CAMERA)
+                    if(permission == PackageManager.PERMISSION_GRANTED){
+
+                        val intent = Intent(this, CodeScannerAcitvity::class.java)
+//                        intent.putExtra("branchId",selectedBranchId)
+                        intent.putExtra("userId",user)
+                        intent.putExtra("tool",true)
+                        //employee add employeeId
+//                        intent.putExtra("context","purchase")
+                        this.startActivity(intent)
+
+                    } else {
+                        binding.root.showToast("Se necesitan permisos para usar la cámara")
+                        askCameraPermission.launch(Manifest.permission.CAMERA)
+                    }
                 }
                 R.id.nav_drawer_current_branch -> {
                     if (branches.isNotEmpty()) {
                         pickBranch()
+                        navController.navigate(R.id.branchesFragment)
                     } else {
                         mostrarToast("No has creado ninguna sucursal")
                     }
@@ -149,25 +198,16 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
                         .create()
                     dialog.show()
                 }
+                R.id.nav_drawer_about->{
+                    val intent = Intent(this, CreditsActivity::class.java)
+                    this.startActivity(intent)
+                }
 
             }
             true
         }
 
-        val bottomNav = binding.bottomNavigation
-        navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)!!
-            .findNavController()
-        bottomNav.setupWithNavController(navController)
 
-        // always show selected Bottom Navigation item as selected (return true)
-        bottomNav.setOnItemSelectedListener { item ->
-            // In order to get the expected behavior, you have to call default Navigation method manually
-            if(item.itemId != R.id.branchesFragment){
-                navController.clearBackStack(item.itemId)
-            }
-            NavigationUI.onNavDestinationSelected(item, navController)
-            return@setOnItemSelectedListener true
-        }
 
 
 
@@ -216,8 +256,6 @@ class HomeActivity : BaseActivity<HomeViewModel, ActivityHomeBinding, HomeReposi
         // finally, create the alert dialog and show it
         val dialog = builder.create()
         dialog.show()
-
-
 
         return selectedBranch
     }

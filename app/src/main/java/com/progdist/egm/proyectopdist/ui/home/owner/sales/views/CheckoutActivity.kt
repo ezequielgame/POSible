@@ -32,12 +32,16 @@ class CheckoutActivity : BaseActivity<CheckoutViewModel,ActivityCheckoutBinding,
     private lateinit var aCustomers: Array<Customer>
     private lateinit var aSuppliers: Array<Supplier>
     private lateinit var context: String
+    var branchId: Int? = -1
+    var userId: Int? = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = intent.getStringExtra("context").toString()
 
+        branchId = intent.getIntExtra("branchId",-1)
+        userId = intent.getIntExtra("userId",-1)
         initRecyclerView()
 
         when(context){
@@ -314,6 +318,9 @@ class CheckoutActivity : BaseActivity<CheckoutViewModel,ActivityCheckoutBinding,
             val intent = Intent(this, NewSaleActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putExtra("renewSale",true)
+            intent.putExtra("branchId",branchId)
+            intent.putExtra("userId",userId)
+            intent.putExtra("context",context)
             startActivity(intent)
             finish()
         }
